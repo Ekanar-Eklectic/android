@@ -86,6 +86,7 @@ import com.owncloud.android.utils.DisplayUtils;
 import com.owncloud.android.utils.FileStorageUtils;
 import com.owncloud.android.utils.PermissionUtil;
 import com.owncloud.android.utils.UriUtils;
+import com.owncloud.android.utils.theme.ThemeSnackbarUtils;
 import com.zynksoftware.documentscanner.ui.DocumentScanner;
 
 import org.greenrobot.eventbus.EventBus;
@@ -498,13 +499,13 @@ public class FileOperationsHelper {
         }
     }
 
-    public void getFileWithLink(@NonNull OCFile file) {
+    public void getFileWithLink(@NonNull OCFile file, ThemeSnackbarUtils themeSnackbarUtils) {
         List<OCShare> shares = fileActivity.getStorageManager().getSharesByPathAndType(file.getRemotePath(),
                                                                                        ShareType.PUBLIC_LINK,
                                                                                        "");
 
         if (shares.size() == SINGLE_LINK_SIZE) {
-            FileActivity.copyAndShareFileLink(fileActivity, file, shares.get(0).getShareLink());
+            FileActivity.copyAndShareFileLink(fileActivity, file, shares.get(0).getShareLink(), themeSnackbarUtils);
         } else {
             if (fileActivity instanceof FileDisplayActivity) {
                 ((FileDisplayActivity) fileActivity).showDetails(file, 1);

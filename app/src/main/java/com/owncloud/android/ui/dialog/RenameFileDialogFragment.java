@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 
+import com.nextcloud.client.di.Injectable;
 import com.owncloud.android.R;
 import com.owncloud.android.databinding.EditBoxDialogBinding;
 import com.owncloud.android.datamodel.OCFile;
@@ -46,20 +47,24 @@ import com.owncloud.android.utils.DisplayUtils;
 import com.owncloud.android.utils.theme.ThemeColorUtils;
 import com.owncloud.android.utils.theme.ThemeTextInputUtils;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 
 /**
- *  Dialog to input a new name for a file or folder to rename.
- *
- *  Triggers the rename operation when name is confirmed.
+ * Dialog to input a new name for a file or folder to rename.
+ * <p>
+ * Triggers the rename operation when name is confirmed.
  */
 public class RenameFileDialogFragment
-    extends DialogFragment implements DialogInterface.OnClickListener {
+    extends DialogFragment implements DialogInterface.OnClickListener, Injectable {
 
     private static final String ARG_TARGET_FILE = "TARGET_FILE";
+
+    @Inject ThemeColorUtils themeColorUtils;
 
     private EditBoxDialogBinding binding;
     private OCFile mTargetFile;
@@ -68,7 +73,7 @@ public class RenameFileDialogFragment
      * Public factory method to create new RenameFileDialogFragment instances.
      *
      * @param file            File to rename.
-     * @return                Dialog ready to show.
+     * @return Dialog ready to show.
      */
     public static RenameFileDialogFragment newInstance(OCFile file) {
         RenameFileDialogFragment frag = new RenameFileDialogFragment();
@@ -83,7 +88,7 @@ public class RenameFileDialogFragment
     public void onStart() {
         super.onStart();
 
-        int color = ThemeColorUtils.primaryAccentColor(getContext());
+        int color = themeColorUtils.primaryAccentColor(getContext());
 
         AlertDialog alertDialog = (AlertDialog) getDialog();
 
@@ -108,7 +113,7 @@ public class RenameFileDialogFragment
         binding.userInput.setText(currentName);
         ThemeTextInputUtils.colorTextInput(binding.userInputContainer,
                                            binding.userInput,
-                                           ThemeColorUtils.primaryColor(getActivity()));
+                                           themeColorUtils.primaryColor(getActivity()));
         int extensionStart = mTargetFile.isFolder() ? -1 : currentName.lastIndexOf('.');
         int selectionEnd = extensionStart >= 0 ? extensionStart : currentName.length();
         binding.userInput.setSelection(0, selectionEnd);

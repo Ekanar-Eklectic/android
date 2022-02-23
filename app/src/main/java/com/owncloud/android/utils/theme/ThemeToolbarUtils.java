@@ -44,24 +44,33 @@ import androidx.core.content.res.ResourcesCompat;
 /**
  * Utility class with methods for client side action/toolbar theming.
  */
-public final class ThemeToolbarUtils {
+public class ThemeToolbarUtils {
+    private final ThemeColorUtils themeColorUtils;
+    private final ThemeDrawableUtils themeDrawableUtils;
+
+    public ThemeToolbarUtils(ThemeColorUtils themeColorUtils,
+                             ThemeDrawableUtils themeDrawableUtils) {
+        this.themeColorUtils = themeColorUtils;
+        this.themeDrawableUtils = themeDrawableUtils;
+    }
+
     /**
      * For activities that do not use drawer, e.g. Settings, this can be used to correctly tint back button based on
      * theme
      *
      * @param supportActionBar the back button's action bar
      */
-    public static void tintBackButton(@Nullable ActionBar supportActionBar, Context context) {
-        tintBackButton(supportActionBar, context, ThemeColorUtils.appBarPrimaryFontColor(context));
+    public void tintBackButton(@Nullable ActionBar supportActionBar, Context context) {
+        tintBackButton(supportActionBar, context, themeColorUtils.appBarPrimaryFontColor(context));
     }
 
-    public static void tintBackButton(@Nullable ActionBar supportActionBar, Context context, @ColorInt int color) {
+    public void tintBackButton(@Nullable ActionBar supportActionBar, Context context, @ColorInt int color) {
         if (supportActionBar == null) {
             return;
         }
 
         Drawable backArrow = ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_arrow_back, null);
-        supportActionBar.setHomeAsUpIndicator(ThemeDrawableUtils.tintDrawable(backArrow, color));
+        supportActionBar.setHomeAsUpIndicator(themeDrawableUtils.tintDrawable(backArrow, color));
     }
 
     /**
@@ -70,10 +79,10 @@ public final class ThemeToolbarUtils {
      * @param actionBar actionBar to be used
      * @param title     title to be shown
      */
-    public static void setColoredTitle(@Nullable ActionBar actionBar, String title, Context context) {
+    public void setColoredTitle(@Nullable ActionBar actionBar, String title, Context context) {
         if (actionBar != null) {
             Spannable text = new SpannableString(title);
-            text.setSpan(new ForegroundColorSpan(ThemeColorUtils.appBarPrimaryFontColor(context)),
+            text.setSpan(new ForegroundColorSpan(themeColorUtils.appBarPrimaryFontColor(context)),
                          0,
                          text.length(),
                          Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -81,7 +90,7 @@ public final class ThemeToolbarUtils {
         }
     }
 
-    public static void setColoredTitle(@Nullable ActionBar actionBar, int titleId, Context context) {
+    public void setColoredTitle(@Nullable ActionBar actionBar, int titleId, Context context) {
         setColoredTitle(actionBar, context.getString(titleId), context);
     }
 
@@ -91,10 +100,10 @@ public final class ThemeToolbarUtils {
      * @param actionBar actionBar to be used
      * @param title     title to be shown
      */
-    public static void setColoredSubtitle(@Nullable ActionBar actionBar, String title, Context context) {
+    public void setColoredSubtitle(@Nullable ActionBar actionBar, String title, Context context) {
         if (actionBar != null) {
             Spannable text = new SpannableString(title);
-            text.setSpan(new ForegroundColorSpan(ThemeColorUtils.appBarSecondaryFontColor(context)),
+            text.setSpan(new ForegroundColorSpan(themeColorUtils.appBarSecondaryFontColor(context)),
                          0,
                          text.length(),
                          Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -108,13 +117,13 @@ public final class ThemeToolbarUtils {
      * @param searchView searchView to be changed
      * @param context    the app's context
      */
-    public static void themeSearchView(SearchView searchView, Context context) {
+    public void themeSearchView(SearchView searchView, Context context) {
         // hacky as no default way is provided
-        int fontColor = ThemeColorUtils.appBarPrimaryFontColor(context);
+        int fontColor = themeColorUtils.appBarPrimaryFontColor(context);
         SearchView.SearchAutoComplete editText = searchView.findViewById(R.id.search_src_text);
         editText.setTextSize(16);
         ThemeTextInputUtils.setEditTextColor(context, editText, fontColor);
-        editText.setHintTextColor(ThemeColorUtils.appBarSecondaryFontColor(context));
+        editText.setHintTextColor(themeColorUtils.appBarSecondaryFontColor(context));
 
         ImageView closeButton = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
         closeButton.setColorFilter(fontColor);
@@ -128,9 +137,9 @@ public final class ThemeToolbarUtils {
      * @param fragmentActivity fragment activity
      * @param color            the color
      */
-    public static void colorStatusBar(Activity fragmentActivity, @ColorInt int color) {
+    public void colorStatusBar(Activity fragmentActivity, @ColorInt int color) {
         Window window = fragmentActivity.getWindow();
-        boolean isLightTheme = ThemeColorUtils.lightTheme(color);
+        boolean isLightTheme = themeColorUtils.lightTheme(color);
         if (window != null) {
             window.setStatusBarColor(color);
             View decor = window.getDecorView();
@@ -148,7 +157,7 @@ public final class ThemeToolbarUtils {
         }
     }
 
-    public static void colorStatusBar(Activity fragmentActivity) {
-        colorStatusBar(fragmentActivity, ThemeColorUtils.primaryAppbarColor(fragmentActivity));
+    public void colorStatusBar(Activity fragmentActivity) {
+        colorStatusBar(fragmentActivity, themeColorUtils.primaryAppbarColor(fragmentActivity));
     }
 }

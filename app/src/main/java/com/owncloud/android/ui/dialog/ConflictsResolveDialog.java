@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.nextcloud.client.account.User;
+import com.nextcloud.client.di.Injectable;
 import com.owncloud.android.R;
 import com.owncloud.android.databinding.ConflictResolveDialogBinding;
 import com.owncloud.android.datamodel.FileDataStorageManager;
@@ -42,10 +43,13 @@ import com.owncloud.android.utils.DisplayUtils;
 import com.owncloud.android.utils.theme.ThemeButtonUtils;
 import com.owncloud.android.utils.theme.ThemeCheckableUtils;
 import com.owncloud.android.utils.theme.ThemeColorUtils;
+import com.owncloud.android.utils.theme.ThemeDrawableUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -59,7 +63,7 @@ import androidx.fragment.app.FragmentTransaction;
 /**
  * Dialog which will be displayed to user upon keep-in-sync file conflict.
  */
-public class ConflictsResolveDialog extends DialogFragment {
+public class ConflictsResolveDialog extends DialogFragment implements Injectable {
 
     private ConflictResolveDialogBinding binding;
 
@@ -67,8 +71,10 @@ public class ConflictsResolveDialog extends DialogFragment {
     private File newFile;
     public OnConflictDecisionMadeListener listener;
     private User user;
-    private List<ThumbnailsCacheManager.ThumbnailGenerationTask> asyncTasks = new ArrayList<>();
+    private final List<ThumbnailsCacheManager.ThumbnailGenerationTask> asyncTasks = new ArrayList<>();
     private Button positiveButton;
+    @Inject ThemeColorUtils themeColorUtils;
+    @Inject ThemeDrawableUtils themeDrawableUtils;
 
     private static final String KEY_NEW_FILE = "file";
     private static final String KEY_EXISTING_FILE = "ocfile";
@@ -116,7 +122,9 @@ public class ConflictsResolveDialog extends DialogFragment {
         }
 
         positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        ThemeButtonUtils.themeBorderlessButton(positiveButton, alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL));
+        ThemeButtonUtils.themeBorderlessButton(themeColorUtils,
+                                               positiveButton,
+                                               alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL));
         positiveButton.setEnabled(false);
     }
 
@@ -152,7 +160,7 @@ public class ConflictsResolveDialog extends DialogFragment {
         // Inflate the layout for the dialog
         binding = ConflictResolveDialogBinding.inflate(requireActivity().getLayoutInflater());
 
-        ThemeCheckableUtils.tintCheckbox(ThemeColorUtils.primaryColor(getContext()),
+        ThemeCheckableUtils.tintCheckbox(themeColorUtils.primaryColor(getContext()),
                                          binding.newCheckbox,
                                          binding.existingCheckbox);
 
@@ -189,12 +197,16 @@ public class ConflictsResolveDialog extends DialogFragment {
         binding.newSize.setText(DisplayUtils.bytesToHumanReadable(newFile.length()));
         binding.newTimestamp.setText(DisplayUtils.getRelativeTimestamp(getContext(), newFile.lastModified()));
         binding.newThumbnail.setTag(newFile.hashCode());
-        LocalFileListAdapter.setThumbnail(newFile, binding.newThumbnail, getContext());
+        LocalFileListAdapter.setThumbnail(newFile,
+                                          binding.newThumbnail,
+                                          getContext(),
+                                          themeColorUtils,
+                                          themeDrawableUtils);
 
         // set info for existing file
         binding.existingSize.setText(DisplayUtils.bytesToHumanReadable(existingFile.getFileLength()));
         binding.existingTimestamp.setText(DisplayUtils.getRelativeTimestamp(getContext(),
-                                                                    existingFile.getModificationTimestamp()));
+                                                                            existingFile.getModificationTimestamp()));
 
         binding.existingThumbnail.setTag(existingFile.getFileId());
         OCFileListAdapter.setThumbnail(existingFile,
@@ -204,11 +216,12 @@ public class ConflictsResolveDialog extends DialogFragment {
                                                                   requireContext().getContentResolver()),
                                        asyncTasks,
                                        false,
-                                       getContext());
+                                       getContext(),
+                                       themeColorUtils,
+                                       themeDrawableUtils);
 
-        View.OnClickListener checkBoxClickListener = v -> {
+        View.OnClickListener checkBoxClickListener = v ->
             positiveButton.setEnabled(binding.newCheckbox.isChecked() || binding.existingCheckbox.isChecked());
-        };
 
         binding.newCheckbox.setOnClickListener(checkBoxClickListener);
         binding.existingCheckbox.setOnClickListener(checkBoxClickListener);

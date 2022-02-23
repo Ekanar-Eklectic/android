@@ -40,6 +40,7 @@ import com.owncloud.android.lib.resources.shares.OCShare;
 import com.owncloud.android.lib.resources.shares.ShareType;
 import com.owncloud.android.ui.activity.FileActivity;
 import com.owncloud.android.utils.DisplayUtils;
+import com.owncloud.android.utils.theme.ThemeColorUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,17 +61,20 @@ public class ShareeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private float avatarRadiusDimension;
     private String userId;
     private User user;
+    private ThemeColorUtils themeColorUtils;
 
     public ShareeListAdapter(FileActivity fileActivity,
                              List<OCShare> shares,
                              ShareeListAdapterListener listener,
                              String userId,
-                             User user) {
+                             User user,
+                             ThemeColorUtils themeColorUtils) {
         this.fileActivity = fileActivity;
         this.shares = shares;
         this.listener = listener;
         this.userId = userId;
         this.user = user;
+        this.themeColorUtils = themeColorUtils;
 
         avatarRadiusDimension = fileActivity.getResources().getDimension(R.dimen.user_icon_radius);
 
@@ -92,7 +96,8 @@ public class ShareeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     FileDetailsShareLinkShareItemBinding.inflate(LayoutInflater.from(fileActivity),
                                                                  parent,
                                                                  false),
-                    fileActivity);
+                    fileActivity,
+                    themeColorUtils);
             case NEW_PUBLIC_LINK:
                 return new NewLinkShareViewHolder(
                     FileDetailsSharePublicLinkAddNewItemBinding.inflate(LayoutInflater.from(fileActivity),
@@ -108,7 +113,8 @@ public class ShareeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                                     parent,
                                                                                     false),
                                            user,
-                                           fileActivity);
+                                           fileActivity,
+                                           themeColorUtils);
         }
     }
 

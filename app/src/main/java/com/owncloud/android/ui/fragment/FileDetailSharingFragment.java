@@ -26,7 +26,6 @@
 package com.owncloud.android.ui.fragment;
 
 import android.accounts.AccountManager;
-import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -62,6 +61,9 @@ import com.owncloud.android.ui.fragment.util.FileDetailSharingFragmentHelper;
 import com.owncloud.android.ui.helpers.FileOperationsHelper;
 import com.owncloud.android.utils.ClipboardUtil;
 import com.owncloud.android.utils.DisplayUtils;
+import com.owncloud.android.utils.theme.ThemeColorUtils;
+import com.owncloud.android.utils.theme.ThemeDrawableUtils;
+import com.owncloud.android.utils.theme.ThemeSnackbarUtils;
 import com.owncloud.android.utils.theme.ThemeToolbarUtils;
 
 import java.util.ArrayList;
@@ -97,8 +99,11 @@ public class FileDetailSharingFragment extends Fragment implements ShareeListAda
     private OnEditShareListener onEditShareListener;
 
     @Inject UserAccountManager accountManager;
-
     @Inject ClientFactory clientFactory;
+    @Inject ThemeColorUtils themeColorUtils;
+    @Inject ThemeToolbarUtils themeToolbarUtils;
+    @Inject ThemeSnackbarUtils themeSnackbarUtils;
+    @Inject ThemeDrawableUtils themeDrawableUtils;
 
     public static FileDetailSharingFragment newInstance(OCFile file, User user) {
         FileDetailSharingFragment fragment = new FileDetailSharingFragment();
@@ -163,7 +168,8 @@ public class FileDetailSharingFragment extends Fragment implements ShareeListAda
                                                             new ArrayList<>(),
                                                             this,
                                                             userId,
-                                                            user));
+                                                            user,
+                                                            themeColorUtils));
         binding.sharesList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         setupView();
@@ -197,7 +203,7 @@ public class FileDetailSharingFragment extends Fragment implements ShareeListAda
             (SearchManager) fileActivity.getSystemService(Context.SEARCH_SERVICE),
             binding.searchView,
             fileActivity.getComponentName());
-        ThemeToolbarUtils.themeSearchView(binding.searchView, requireContext());
+        themeToolbarUtils.themeSearchView(binding.searchView, requireContext());
 
         if (file.canReshare()) {
             binding.searchView.setQueryHint(getResources().getString(R.string.share_search));
@@ -280,7 +286,7 @@ public class FileDetailSharingFragment extends Fragment implements ShareeListAda
     private void showSendLinkTo(OCShare publicShare) {
         if (file.isSharedViaLink()) {
             if (TextUtils.isEmpty(publicShare.getShareLink())) {
-                fileOperationsHelper.getFileWithLink(file);
+                fileOperationsHelper.getFileWithLink(file, themeSnackbarUtils);
             } else {
                 FileDisplayActivity.showShareLinkDialog(fileActivity, file, publicShare.getShareLink());
             }
@@ -290,7 +296,7 @@ public class FileDetailSharingFragment extends Fragment implements ShareeListAda
     public void copyLink(OCShare share) {
         if (file.isSharedViaLink()) {
             if (TextUtils.isEmpty(share.getShareLink())) {
-                fileOperationsHelper.getFileWithLink(file);
+                fileOperationsHelper.getFileWithLink(file, themeSnackbarUtils);
             } else {
                 ClipboardUtil.copyToClipboard(getActivity(), share.getShareLink());
             }
@@ -369,7 +375,12 @@ public class FileDetailSharingFragment extends Fragment implements ShareeListAda
     @Override
     public void showProfileBottomSheet(User user, String shareWith) {
         if (user.getServer().getVersion().isNewerOrEqual(NextcloudVersion.Companion.getNextcloud_23())) {
-            new RetrieveHoverCardAsyncTask(user, shareWith, fileActivity, clientFactory).execute();
+            new RetrieveHoverCardAsyncTask(user,
+                                           shareWith,
+                                           fileActivity,
+                                           clientFactory,
+                                           themeColorUtils,
+                                           themeDrawableUtils).execute();
         }
     }
 

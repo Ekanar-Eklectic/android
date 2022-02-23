@@ -71,7 +71,10 @@ public final class ThemeTextInputUtils {
         ));
     }
 
-    public static void themeEditText(Context context, EditText editText, boolean themedBackground) {
+    public static void themeEditText(Context context,
+                                     EditText editText,
+                                     boolean themedBackground,
+                                     ThemeColorUtils themeColorUtils) {
         if (editText == null) {
             return;
         }
@@ -79,7 +82,7 @@ public final class ThemeTextInputUtils {
         int color = ContextCompat.getColor(context, R.color.text_color);
 
         if (themedBackground) {
-            if (ThemeColorUtils.darkTheme(context)) {
+            if (themeColorUtils.darkTheme(context)) {
                 color = ContextCompat.getColor(context, R.color.themed_fg);
             } else {
                 color = ContextCompat.getColor(context, R.color.themed_fg_inverse);

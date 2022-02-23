@@ -58,7 +58,6 @@ import com.owncloud.android.ui.adapter.UserListItem;
 import com.owncloud.android.ui.dialog.AccountRemovalConfirmationDialog;
 import com.owncloud.android.ui.events.AccountRemovedEvent;
 import com.owncloud.android.ui.helpers.FileOperationsHelper;
-import com.owncloud.android.utils.theme.ThemeToolbarUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -135,7 +134,7 @@ public class ManageAccountsActivity extends FileActivity implements UserListAdap
 
         // set title Action bar
         updateActionBarTitleAndHomeButtonByString(getResources().getString(R.string.prefs_manage_accounts));
-        ThemeToolbarUtils.tintBackButton(actionBar, this);
+        themeToolbarUtils.tintBackButton(actionBar, this);
 
         List<User> users = accountManager.getAllUsers();
         originalUsers = toAccountNames(users);
@@ -153,7 +152,10 @@ public class ManageAccountsActivity extends FileActivity implements UserListAdap
                                               accountManager,
                                               getUserListItems(),
                                               this,
-                                              multipleAccountsSupported, true);
+                                              multipleAccountsSupported,
+                                              true,
+                                              themeColorUtils,
+                                              themeDrawableUtils);
 
         recyclerView.setAdapter(userListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -298,7 +300,10 @@ public class ManageAccountsActivity extends FileActivity implements UserListAdap
                                       accountManager,
                                       getUserListItems(),
                                       this,
-                                      multipleAccountsSupported, false);
+                                      multipleAccountsSupported,
+                                      false,
+                                      themeColorUtils,
+                                      themeDrawableUtils);
                                   recyclerView.setAdapter(userListAdapter);
                                   runOnUiThread(() -> userListAdapter.notifyDataSetChanged());
                               } catch (OperationCanceledException e) {
@@ -349,7 +354,10 @@ public class ManageAccountsActivity extends FileActivity implements UserListAdap
                                                       accountManager,
                                                       userListItemArray,
                                                       this,
-                                                      multipleAccountsSupported, false);
+                                                      multipleAccountsSupported,
+                                                      false,
+                                                      themeColorUtils,
+                                                      themeDrawableUtils);
                 recyclerView.setAdapter(userListAdapter);
             } else {
                 onBackPressed();

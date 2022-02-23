@@ -111,19 +111,19 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int showFilenameColumnThreshold = 4;
     private final ComponentsGetter transferServiceGetter;
     private final String userId;
-    private Activity activity;
-    private AppPreferences preferences;
+    private final Activity activity;
+    private final AppPreferences preferences;
     private List<OCFile> mFiles = new ArrayList<>();
-    private List<OCFile> mFilesAll = new ArrayList<>();
-    private boolean hideItemOptions;
+    private final List<OCFile> mFilesAll = new ArrayList<>();
+    private final boolean hideItemOptions;
     private long lastTimestamp;
     private boolean gridView;
     private boolean multiSelect;
-    private Set<OCFile> checkedFiles;
+    private final Set<OCFile> checkedFiles;
 
     private FileDataStorageManager mStorageManager;
     private User user;
-    private OCFileListFragmentInterface ocFileListFragmentInterface;
+    private final OCFileListFragmentInterface ocFileListFragmentInterface;
 
     private FilesFilter mFilesFilter;
     private OCFile currentDirectory;
@@ -134,11 +134,13 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int VIEWTYPE_IMAGE = 2;
     private static final int VIEWTYPE_HEADER = 3;
 
-    private List<ThumbnailsCacheManager.ThumbnailGenerationTask> asyncTasks = new ArrayList<>();
+    private final List<ThumbnailsCacheManager.ThumbnailGenerationTask> asyncTasks = new ArrayList<>();
     private boolean onlyOnDevice;
     private boolean showShareAvatar = false;
     private OCFile highlightedItem;
     private boolean showMetadata = true;
+    private final ThemeColorUtils themeColorUtils;
+    private final ThemeDrawableUtils themeDrawableUtils;
 
     public OCFileListAdapter(
         Activity activity,
@@ -147,8 +149,10 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         ComponentsGetter transferServiceGetter,
         OCFileListFragmentInterface ocFileListFragmentInterface,
         boolean argHideItemOptions,
-        boolean gridView
-    ) {
+        boolean gridView,
+        ThemeColorUtils themeColorUtils,
+        ThemeDrawableUtils themeDrawableUtils
+                            ) {
         this.ocFileListFragmentInterface = ocFileListFragmentInterface;
         this.activity = activity;
         this.preferences = preferences;
@@ -156,13 +160,15 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         hideItemOptions = argHideItemOptions;
         this.gridView = gridView;
         checkedFiles = new HashSet<>();
+        this.themeColorUtils = themeColorUtils;
+        this.themeDrawableUtils = themeDrawableUtils;
 
         this.transferServiceGetter = transferServiceGetter;
 
         if (this.user != null) {
             AccountManager platformAccountManager = AccountManager.get(this.activity);
             userId = platformAccountManager.getUserData(this.user.toPlatformAccount(),
-                                                com.owncloud.android.lib.common.accounts.AccountUtils.Constants.KEY_USER_ID);
+                                                        com.owncloud.android.lib.common.accounts.AccountUtils.Constants.KEY_USER_ID);
         } else {
             userId = "";
         }
@@ -358,14 +364,20 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             OCFileListFooterViewHolder footerViewHolder = (OCFileListFooterViewHolder) holder;
             footerViewHolder.binding.footerText.setText(getFooterText());
             footerViewHolder.binding.loadingProgressBar.getIndeterminateDrawable()
-                .setColorFilter(ThemeColorUtils.primaryColor(activity), PorterDuff.Mode.SRC_IN);
+                .setColorFilter(themeColorUtils.primaryColor(activity), PorterDuff.Mode.SRC_IN);
             footerViewHolder.binding.loadingProgressBar.setVisibility(
                 ocFileListFragmentInterface.isLoading() ? View.VISIBLE : View.GONE);
         } else if (holder instanceof OCFileListHeaderViewHolder) {
             OCFileListHeaderViewHolder headerViewHolder = (OCFileListHeaderViewHolder) holder;
             String text = currentDirectory.getRichWorkspace();
 
-            PreviewTextFragment.setText(headerViewHolder.binding.headerText, text, null, activity, true, true);
+            PreviewTextFragment.setText(headerViewHolder.binding.headerText,
+                                        text,
+                                        null,
+                                        activity,
+                                        true,
+                                        true,
+                                        themeColorUtils);
             headerViewHolder.binding.headerView.setOnClickListener(v -> ocFileListFragmentInterface.onHeaderClicked());
         } else {
             ListGridImageViewHolder gridViewHolder = (ListGridImageViewHolder) holder;
@@ -382,17 +394,20 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                          asyncTasks,
                          gridView,
                          activity,
-                         gridViewHolder.getShimmerThumbnail(), preferences);
+                         gridViewHolder.getShimmerThumbnail(),
+                         preferences,
+                         themeColorUtils,
+                         themeDrawableUtils);
 
             if (highlightedItem != null && file.getFileId() == highlightedItem.getFileId()) {
                 gridViewHolder.getItemLayout().setBackgroundColor(activity.getResources()
                                                                  .getColor(R.color.selected_item_background));
             } else if (isCheckedFile(file)) {
                 gridViewHolder.getItemLayout().setBackgroundColor(activity.getResources()
-                                                                 .getColor(R.color.selected_item_background));
+                                                                      .getColor(R.color.selected_item_background));
                 gridViewHolder.getCheckbox().setImageDrawable(
-                    ThemeDrawableUtils.tintDrawable(R.drawable.ic_checkbox_marked,
-                                                    ThemeColorUtils.primaryColor(activity)));
+                    themeDrawableUtils.tintDrawable(R.drawable.ic_checkbox_marked,
+                                                    themeColorUtils.primaryColor(activity)));
             } else {
                 gridViewHolder.getItemLayout().setBackgroundColor(activity.getResources().getColor(R.color.bg_default));
                 gridViewHolder.getCheckbox().setImageResource(R.drawable.ic_checkbox_blank_outline);
@@ -438,7 +453,7 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                     Log_OC.d(this, "sharees of " + file.getFileName() + ": " + sharees);
 
-                    itemViewHolder.getSharedAvatars().setAvatars(user, sharees);
+                    itemViewHolder.getSharedAvatars().setAvatars(user, sharees, themeColorUtils, themeDrawableUtils);
                     itemViewHolder.getSharedAvatars().setOnClickListener(
                         view -> ocFileListFragmentInterface.onShareIconClick(file));
                 } else {
@@ -543,8 +558,20 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                     FileDataStorageManager storageManager,
                                     List<ThumbnailsCacheManager.ThumbnailGenerationTask> asyncTasks,
                                     boolean gridView,
-                                    Context context) {
-        setThumbnail(file, thumbnailView, user, storageManager, asyncTasks, gridView, context, null, null);
+                                    Context context,
+                                    ThemeColorUtils themeColorUtils,
+                                    ThemeDrawableUtils themeDrawableUtils) {
+        setThumbnail(file,
+                     thumbnailView,
+                     user,
+                     storageManager,
+                     asyncTasks,
+                     gridView,
+                     context,
+                     null,
+                     null,
+                     themeColorUtils,
+                     themeDrawableUtils);
     }
 
     private static void setThumbnail(OCFile file,
@@ -555,13 +582,19 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                      boolean gridView,
                                      Context context,
                                      LoaderImageView shimmerThumbnail,
-                                     AppPreferences preferences) {
+                                     AppPreferences preferences,
+                                     ThemeColorUtils themeColorUtils,
+                                     ThemeDrawableUtils themeDrawableUtils) {
         if (file.isFolder()) {
             stopShimmer(shimmerThumbnail, thumbnailView);
             thumbnailView.setImageDrawable(MimeTypeUtil
                                                .getFolderTypeIcon(file.isSharedWithMe() || file.isSharedWithSharee(),
-                                                                  file.isSharedViaLink(), file.isEncrypted(),
-                                                                  file.getMountType(), context));
+                                                                  file.isSharedViaLink(),
+                                                                  file.isEncrypted(),
+                                                                  file.getMountType(),
+                                                                  context,
+                                                                  themeColorUtils,
+                                                                  themeDrawableUtils));
         } else {
             if (file.getRemoteId() != null && file.isPreviewAvailable()) {
                 // Thumbnail in cache?
@@ -596,7 +629,9 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                 Drawable drawable = MimeTypeUtil.getFileTypeIcon(file.getMimeType(),
                                                                                  file.getFileName(),
                                                                                  user,
-                                                                                 context);
+                                                                                 context,
+                                                                                 themeColorUtils,
+                                                                                 themeDrawableUtils);
                                 if (drawable == null) {
                                     drawable = ResourcesCompat.getDrawable(context.getResources(),
                                                                            R.drawable.file_image,
@@ -646,7 +681,9 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 thumbnailView.setImageDrawable(MimeTypeUtil.getFileTypeIcon(file.getMimeType(),
                                                                             file.getFileName(),
                                                                             user,
-                                                                            context));
+                                                                            context,
+                                                                            themeColorUtils,
+                                                                            themeDrawableUtils));
             }
         }
     }

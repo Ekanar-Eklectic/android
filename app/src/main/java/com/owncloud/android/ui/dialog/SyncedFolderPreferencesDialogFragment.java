@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.nextcloud.client.di.Injectable;
 import com.owncloud.android.R;
 import com.owncloud.android.datamodel.MediaFolderType;
 import com.owncloud.android.datamodel.SyncedFolderDisplayItem;
@@ -52,6 +53,8 @@ import com.owncloud.android.utils.theme.ThemeColorUtils;
 
 import java.io.File;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -63,9 +66,10 @@ import static com.owncloud.android.datamodel.SyncedFolderDisplayItem.UNPERSISTED
 import static com.owncloud.android.ui.activity.UploadFilesActivity.REQUEST_CODE_KEY;
 
 /**
- * Dialog to show the preferences/configuration of a synced folder allowing the user to change the different parameters.
+ * Dialog to show the preferences/configuration of a synced folder allowing the user to change the different
+ * parameters.
  */
-public class SyncedFolderPreferencesDialogFragment extends DialogFragment {
+public class SyncedFolderPreferencesDialogFragment extends DialogFragment implements Injectable {
 
     public static final String SYNCED_FOLDER_PARCELABLE = "SyncedFolderParcelable";
     public static final int REQUEST_CODE__SELECT_REMOTE_FOLDER = 0;
@@ -77,6 +81,7 @@ public class SyncedFolderPreferencesDialogFragment extends DialogFragment {
     private final static float alphaEnabled = 1.0f;
     private final static float alphaDisabled = 0.7f;
 
+    @Inject ThemeColorUtils themeColorUtils;
     protected View mView;
     private CharSequence[] mUploadBehaviorItemStrings;
     private CharSequence[] mNameCollisionPolicyItemStrings;
@@ -153,7 +158,7 @@ public class SyncedFolderPreferencesDialogFragment extends DialogFragment {
      * @param view the parent view
      */
     private void setupDialogElements(View view) {
-        int accentColor = ThemeColorUtils.primaryAccentColor(getContext());
+        int accentColor = themeColorUtils.primaryAccentColor(getContext());
 
         if (mSyncedFolder.getType().getId() > MediaFolderType.CUSTOM.getId()) {
             // hide local folder chooser and delete for non-custom folders
@@ -179,7 +184,7 @@ public class SyncedFolderPreferencesDialogFragment extends DialogFragment {
 
         // find/saves UI elements
         mEnabledSwitch = view.findViewById(R.id.sync_enabled);
-        ThemeCheckableUtils.tintSwitch(mEnabledSwitch);
+        ThemeCheckableUtils.tintSwitch(mEnabledSwitch, themeColorUtils);
 
         mLocalFolderPath = view.findViewById(R.id.synced_folders_settings_local_folder_path);
 
@@ -208,7 +213,7 @@ public class SyncedFolderPreferencesDialogFragment extends DialogFragment {
         mCancel = view.findViewById(R.id.cancel);
         mSave = view.findViewById(R.id.save);
 
-        ThemeButtonUtils.themeBorderlessButton(mCancel, mSave);
+        ThemeButtonUtils.themeBorderlessButton(themeColorUtils, mCancel, mSave);
 
         // Set values
         setEnabled(mSyncedFolder.isEnabled());
@@ -354,7 +359,7 @@ public class SyncedFolderPreferencesDialogFragment extends DialogFragment {
         view.findViewById(R.id.setting_instant_name_collision_policy_container).setAlpha(alpha);
 
         if (enable) {
-            ThemeCheckableUtils.tintCheckbox(ThemeColorUtils.primaryAccentColor(getContext()),
+            ThemeCheckableUtils.tintCheckbox(themeColorUtils.primaryAccentColor(getContext()),
                                              mUploadOnWifiCheckbox,
                                              mUploadOnChargingCheckbox,
                                              mUploadExistingCheckbox,

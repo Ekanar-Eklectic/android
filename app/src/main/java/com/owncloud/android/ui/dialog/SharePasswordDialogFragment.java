@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.nextcloud.client.di.Injectable;
 import com.owncloud.android.R;
 import com.owncloud.android.databinding.PasswordDialogBinding;
 import com.owncloud.android.datamodel.OCFile;
@@ -39,22 +40,26 @@ import com.owncloud.android.utils.theme.ThemeButtonUtils;
 import com.owncloud.android.utils.theme.ThemeColorUtils;
 import com.owncloud.android.utils.theme.ThemeTextInputUtils;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 /**
  * Dialog to input the password for sharing a file/folder.
- *
+ * <p>
  * Triggers the share when the password is introduced.
  */
-public class SharePasswordDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
+public class SharePasswordDialogFragment extends DialogFragment implements DialogInterface.OnClickListener, Injectable {
 
     private static final String ARG_FILE = "FILE";
     private static final String ARG_SHARE = "SHARE";
     private static final String ARG_CREATE_SHARE = "CREATE_SHARE";
     private static final String ARG_ASK_FOR_PASSWORD = "ASK_FOR_PASSWORD";
     public static final String PASSWORD_FRAGMENT = "PASSWORD_FRAGMENT";
+
+    @Inject ThemeColorUtils themeColorUtils;
 
     private PasswordDialogBinding binding;
     private OCFile file;
@@ -68,7 +73,8 @@ public class SharePasswordDialogFragment extends DialogFragment implements Dialo
 
         AlertDialog alertDialog = (AlertDialog) getDialog();
         if (alertDialog != null) {
-            ThemeButtonUtils.themeBorderlessButton(alertDialog.getButton(AlertDialog.BUTTON_POSITIVE),
+            ThemeButtonUtils.themeBorderlessButton(themeColorUtils,
+                                                   alertDialog.getButton(AlertDialog.BUTTON_POSITIVE),
                                                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
             ThemeButtonUtils.themeBorderlessButton(getResources().getColor(R.color.highlight_textColor_Warning),
                                                    alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL));
@@ -157,7 +163,7 @@ public class SharePasswordDialogFragment extends DialogFragment implements Dialo
         binding.sharePassword.setText("");
         ThemeTextInputUtils.colorTextInput(binding.sharePasswordContainer,
                                            binding.sharePassword,
-                                           ThemeColorUtils.primaryColor(getActivity()));
+                                           themeColorUtils.primaryColor(getActivity()));
         binding.sharePassword.requestFocus();
 
         int negativeButtonCaption;

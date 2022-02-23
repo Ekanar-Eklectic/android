@@ -41,6 +41,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.nextcloud.client.preferences.AppPreferences
 import com.nextcloud.client.preferences.AppPreferencesImpl
 import com.owncloud.android.R
+import com.owncloud.android.utils.theme.ThemeButtonUtils
+import com.owncloud.android.utils.theme.ThemeColorUtils
 import com.owncloud.android.ui.dialog.StoragePermissionDialogFragment
 import com.owncloud.android.utils.theme.ThemeSnackbarUtils
 

@@ -64,16 +64,16 @@ public final class ThemeBarUtils {
      *
      * @param seekBar the seek bar to be colored
      */
-    public static void colorHorizontalSeekBar(SeekBar seekBar, Context context) {
-        int color = ThemeColorUtils.primaryAccentColor(context);
+    public static void colorHorizontalSeekBar(SeekBar seekBar, Context context, ThemeColorUtils themeColorUtils) {
+        int color = themeColorUtils.primaryAccentColor(context);
 
         colorHorizontalProgressBar(seekBar, color);
         seekBar.getThumb().setColorFilter(color, PorterDuff.Mode.SRC_IN);
     }
 
-    public static void themeProgressBar(Context context, ProgressBar progressBar) {
+    public static void themeProgressBar(Context context, ProgressBar progressBar, ThemeColorUtils themeColorUtils) {
         // TODO harmonize methods
-        int color = ThemeColorUtils.primaryAccentColor(context);
+        int color = themeColorUtils.primaryAccentColor(context);
         progressBar.getIndeterminateDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
     }
 }

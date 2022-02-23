@@ -83,7 +83,8 @@ public class SyncFileNotEnoughSpaceDialogFragment extends ConfirmationDialogFrag
         AlertDialog alertDialog = (AlertDialog) getDialog();
 
         if (alertDialog != null) {
-            ThemeButtonUtils.themeBorderlessButton(alertDialog.getButton(AlertDialog.BUTTON_POSITIVE),
+            ThemeButtonUtils.themeBorderlessButton(themeColorUtils,
+                                                   alertDialog.getButton(AlertDialog.BUTTON_POSITIVE),
                                                    alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL),
                                                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
         }

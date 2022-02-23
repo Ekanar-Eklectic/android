@@ -64,6 +64,15 @@ import com.owncloud.android.ui.activities.data.activities.RemoteActivitiesReposi
 import com.owncloud.android.ui.activities.data.files.FilesRepository;
 import com.owncloud.android.ui.activities.data.files.FilesServiceApiImpl;
 import com.owncloud.android.ui.activities.data.files.RemoteFilesRepository;
+import com.owncloud.android.utils.theme.ThemeColorUtils;
+import com.owncloud.android.utils.theme.ThemeDrawableUtils;
+import com.owncloud.android.utils.theme.ThemeFabUtils;
+import com.owncloud.android.utils.theme.ThemeLayoutUtils;
+import com.owncloud.android.utils.theme.ThemeMenuUtils;
+import com.owncloud.android.utils.theme.ThemeSnackbarUtils;
+import com.owncloud.android.utils.theme.ThemeTextUtils;
+import com.owncloud.android.utils.theme.ThemeToolbarUtils;
+import com.owncloud.android.utils.theme.ThemeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -226,8 +235,13 @@ class AppModule {
 
     @Provides
     @Singleton
-    AppNotificationManager notificationsManager(Context context, NotificationManager platformNotificationsManager) {
-        return new AppNotificationManagerImpl(context, context.getResources(), platformNotificationsManager);
+    AppNotificationManager notificationsManager(Context context,
+                                                NotificationManager platformNotificationsManager,
+                                                ThemeColorUtils themeColorUtils) {
+        return new AppNotificationManagerImpl(context,
+                                              context.getResources(),
+                                              platformNotificationsManager,
+                                              themeColorUtils);
     }
 
     @Provides
@@ -244,5 +258,60 @@ class AppModule {
     @Singleton
     PassCodeManager passCodeManager(AppPreferences preferences, Clock clock) {
         return new PassCodeManager(preferences, clock);
+    }
+
+    @Provides
+    @Singleton
+    ThemeColorUtils themeColorUtils() {
+        return new ThemeColorUtils();
+    }
+
+    @Provides
+    @Singleton
+    ThemeFabUtils themeFabUtils(ThemeColorUtils themeColorUtils, ThemeDrawableUtils themeDrawableUtils) {
+        return new ThemeFabUtils(themeColorUtils, themeDrawableUtils);
+    }
+
+    @Provides
+    @Singleton
+    ThemeLayoutUtils themeLayoutUtils(ThemeColorUtils themeColorUtils) {
+        return new ThemeLayoutUtils(themeColorUtils);
+    }
+
+    @Provides
+    @Singleton
+    ThemeToolbarUtils themeToolbarUtils(ThemeColorUtils themeColorUtils,
+                                        ThemeDrawableUtils themeDrawableUtils) {
+        return new ThemeToolbarUtils(themeColorUtils, themeDrawableUtils);
+    }
+
+    @Provides
+    @Singleton
+    ThemeDrawableUtils themeDrawableUtils(Context context) {
+        return new ThemeDrawableUtils(context);
+    }
+
+    @Provides
+    @Singleton
+    ThemeUtils themeUtils() {
+        return new ThemeUtils();
+    }
+
+    @Provides
+    @Singleton
+    ThemeMenuUtils themeMenuUtils() {
+        return new ThemeMenuUtils();
+    }
+
+    @Provides
+    @Singleton
+    ThemeSnackbarUtils themeSnackbarUtils() {
+        return new ThemeSnackbarUtils();
+    }
+
+    @Provides
+    @Singleton
+    ThemeTextUtils themeTextUtils() {
+        return new ThemeTextUtils();
     }
 }

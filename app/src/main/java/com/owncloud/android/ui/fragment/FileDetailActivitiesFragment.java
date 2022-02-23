@@ -60,8 +60,10 @@ import com.owncloud.android.ui.interfaces.ActivityListInterface;
 import com.owncloud.android.ui.interfaces.VersionListInterface;
 import com.owncloud.android.utils.DisplayUtils;
 import com.owncloud.android.utils.theme.ThemeColorUtils;
+import com.owncloud.android.utils.theme.ThemeDrawableUtils;
 import com.owncloud.android.utils.theme.ThemeLayoutUtils;
 import com.owncloud.android.utils.theme.ThemeTextInputUtils;
+import com.owncloud.android.utils.theme.ThemeToolbarUtils;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.greenrobot.eventbus.EventBus;
@@ -112,6 +114,10 @@ public class FileDetailActivitiesFragment extends Fragment implements
     @Inject UserAccountManager accountManager;
     @Inject ClientFactory clientFactory;
     @Inject ContentResolver contentResolver;
+    @Inject ThemeColorUtils themeColorUtils;
+    @Inject ThemeLayoutUtils themeLayoutUtils;
+    @Inject ThemeToolbarUtils themeToolbarUtils;
+    @Inject ThemeDrawableUtils themeDrawableUtils;
 
     public static FileDetailActivitiesFragment newInstance(OCFile file, User user) {
         FileDetailActivitiesFragment fragment = new FileDetailActivitiesFragment();
@@ -139,13 +145,13 @@ public class FileDetailActivitiesFragment extends Fragment implements
             user = savedInstanceState.getParcelable(ARG_USER);
         }
 
-        binding = FileDetailsActivitiesFragmentBinding.inflate(inflater,container,false);
+        binding = FileDetailsActivitiesFragmentBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
         setupView();
 
-        ThemeLayoutUtils.colorSwipeRefreshLayout(getContext(), binding.swipeContainingEmpty);
-        ThemeLayoutUtils.colorSwipeRefreshLayout(getContext(), binding.swipeContainingList);
+        themeLayoutUtils.colorSwipeRefreshLayout(getContext(), binding.swipeContainingEmpty);
+        themeLayoutUtils.colorSwipeRefreshLayout(getContext(), binding.swipeContainingList);
 
         fetchAndSetData(-1);
 
@@ -178,7 +184,7 @@ public class FileDetailActivitiesFragment extends Fragment implements
 
         ThemeTextInputUtils.colorTextInput(binding.commentInputFieldContainer,
                                            binding.commentInputField,
-                                           ThemeColorUtils.primaryColor(getContext()));
+                                           themeColorUtils.primaryColor(getContext()));
 
         DisplayUtils.setAvatar(user,
                                this,
@@ -236,7 +242,9 @@ public class FileDetailActivitiesFragment extends Fragment implements
                                                     accountManager,
                                                     this,
                                                     this,
-                                                    clientFactory
+                                                    clientFactory,
+                                                    themeColorUtils,
+                                                    themeDrawableUtils
         );
         binding.list.setAdapter(adapter);
 

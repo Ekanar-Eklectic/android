@@ -82,11 +82,15 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
     private List<Notification> notificationsList;
     private OwnCloudClient client;
     private NotificationsActivity notificationsActivity;
+    private ThemeColorUtils themeColorUtils;
 
-    public NotificationListAdapter(OwnCloudClient client, NotificationsActivity notificationsActivity) {
+    public NotificationListAdapter(OwnCloudClient client,
+                                   NotificationsActivity notificationsActivity,
+                                   ThemeColorUtils themeColorUtils) {
         this.notificationsList = new ArrayList<>();
         this.client = client;
         this.notificationsActivity = notificationsActivity;
+        this.themeColorUtils = themeColorUtils;
         foregroundColorSpanBlack = new ForegroundColorSpan(
             notificationsActivity.getResources().getColor(R.color.text_color));
     }
@@ -175,7 +179,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
             0
                          );
 
-        int primaryColor = ThemeColorUtils.primaryColor(notificationsActivity);
+        int primaryColor = themeColorUtils.primaryColor(notificationsActivity);
         
         List<Action> overflowActions = new ArrayList<>();
         
@@ -208,7 +212,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
                         }
                     });
 
-                    ThemeButtonUtils.colorPrimaryButton(button, notificationsActivity);
+                    ThemeButtonUtils.colorPrimaryButton(button, notificationsActivity, themeColorUtils);
                     holder.binding.buttons.addView(button);
                 } else {
                     overflowActions.add(action);
@@ -262,7 +266,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
                 button = new MaterialButton(notificationsActivity);
 
                 if (action.primary) {
-                    ThemeButtonUtils.colorPrimaryButton(button, notificationsActivity);
+                    ThemeButtonUtils.colorPrimaryButton(button, notificationsActivity, themeColorUtils);
                 } else {
                     button.setBackgroundColor(resources.getColor(R.color.grey_200));
                     button.setTextColor(primaryColor);

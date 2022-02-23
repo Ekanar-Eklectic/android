@@ -25,7 +25,6 @@ package com.owncloud.android.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -39,7 +38,6 @@ import android.widget.EditText;
 import com.google.android.material.snackbar.Snackbar;
 import com.nextcloud.client.di.Injectable;
 import com.nextcloud.client.preferences.AppPreferences;
-import com.nextcloud.client.preferences.AppPreferencesImpl;
 import com.owncloud.android.R;
 import com.owncloud.android.authentication.PassCodeManager;
 import com.owncloud.android.databinding.PasscodelockBinding;
@@ -76,6 +74,7 @@ public class PassCodeActivity extends AppCompatActivity implements Injectable {
 
     @Inject AppPreferences preferences;
     @Inject PassCodeManager passCodeManager;
+    @Inject ThemeColorUtils themeColorUtils;
     private PasscodelockBinding binding;
     private final EditText[] passCodeEditTexts = new EditText[4];
     private String [] passCodeDigits = {"","","",""};
@@ -95,26 +94,26 @@ public class PassCodeActivity extends AppCompatActivity implements Injectable {
         binding = PasscodelockBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        int elementColor = ThemeColorUtils.primaryColor(this, true);
+        int elementColor = themeColorUtils.primaryColor(this, true);
 
-        ThemeButtonUtils.themeBorderlessButton(ThemeColorUtils.primaryColor(this, true), binding.cancel);
+        ThemeButtonUtils.themeBorderlessButton(themeColorUtils.primaryColor(this, true), binding.cancel);
 
         passCodeEditTexts[0] = binding.txt0;
         ThemeTextInputUtils.colorEditText(passCodeEditTexts[0], elementColor);
-        ThemeTextInputUtils.themeEditText(this, passCodeEditTexts[0], false);
+        ThemeTextInputUtils.themeEditText(this, passCodeEditTexts[0], false, themeColorUtils);
         passCodeEditTexts[0].requestFocus();
 
         passCodeEditTexts[1] = binding.txt1;
         ThemeTextInputUtils.colorEditText(passCodeEditTexts[1], elementColor);
-        ThemeTextInputUtils.themeEditText(this, passCodeEditTexts[1], false);
+        ThemeTextInputUtils.themeEditText(this, passCodeEditTexts[1], false, themeColorUtils);
 
         passCodeEditTexts[2] = binding.txt2;
         ThemeTextInputUtils.colorEditText(passCodeEditTexts[2], elementColor);
-        ThemeTextInputUtils.themeEditText(this, passCodeEditTexts[2], false);
+        ThemeTextInputUtils.themeEditText(this, passCodeEditTexts[2], false, themeColorUtils);
 
         passCodeEditTexts[3] = binding.txt3;
         ThemeTextInputUtils.colorEditText(passCodeEditTexts[3], elementColor);
-        ThemeTextInputUtils.themeEditText(this, passCodeEditTexts[3], false);
+        ThemeTextInputUtils.themeEditText(this, passCodeEditTexts[3], false, themeColorUtils);
 
         Window window = getWindow();
         if (window != null) {

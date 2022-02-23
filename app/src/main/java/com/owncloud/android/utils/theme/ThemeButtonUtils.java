@@ -50,9 +50,9 @@ public final class ThemeButtonUtils {
         }
     }
 
-    public static void colorPrimaryButton(Button button, Context context) {
-        int primaryColor = ThemeColorUtils.primaryColor(null, true, false, context);
-        int fontColor = ThemeColorUtils.fontColor(context, false);
+    public static void colorPrimaryButton(Button button, Context context, ThemeColorUtils themeColorUtils) {
+        int primaryColor = themeColorUtils.primaryColor(null, true, false, context);
+        int fontColor = themeColorUtils.fontColor(context, false);
 
         button.setBackgroundColor(primaryColor);
 
@@ -70,11 +70,11 @@ public final class ThemeButtonUtils {
      *
      * @param buttons borderless buttons to be themed
      */
-    public static void themeBorderlessButton(@Nullable Button... buttons) {
+    public static void themeBorderlessButton(ThemeColorUtils themeColorUtils, @Nullable Button... buttons) {
         if (buttons == null || buttons.length < 1) {
             return;
         }
-        themeBorderlessButton(ThemeColorUtils.primaryAccentColor(buttons[0].getContext()), buttons);
+        themeBorderlessButton(themeColorUtils.primaryAccentColor(buttons[0].getContext()), buttons);
     }
 
     /**

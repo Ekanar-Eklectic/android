@@ -59,7 +59,6 @@ import com.owncloud.android.utils.theme.ThemeTextInputUtils
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.EmojiPopup
 import com.vanniktech.emoji.google.GoogleEmojiProvider
-import java.util.ArrayList
 import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
@@ -106,6 +105,9 @@ class SetStatusDialogFragment :
 
     @Inject
     lateinit var clientFactory: ClientFactory
+
+    @Inject
+    lateinit var themeColorUtils: ThemeColorUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -212,12 +214,12 @@ class SetStatusDialogFragment :
             }
         }
 
-        binding.clearStatus.setTextColor(ThemeColorUtils.primaryColor(context, true))
-        ThemeButtonUtils.colorPrimaryButton(binding.setStatus, context)
+        binding.clearStatus.setTextColor(themeColorUtils.primaryColor(context, true))
+        ThemeButtonUtils.colorPrimaryButton(binding.setStatus, context, themeColorUtils)
         ThemeTextInputUtils.colorTextInput(
             binding.customStatusInputContainer,
             binding.customStatusInput,
-            ThemeColorUtils.primaryColor(activity)
+            themeColorUtils.primaryColor(activity)
         )
     }
 
@@ -327,19 +329,19 @@ class SetStatusDialogFragment :
         when (statusType) {
             StatusType.ONLINE -> {
                 clearTopStatus()
-                binding.onlineStatus.setBackgroundColor(ThemeColorUtils.primaryColor(context))
+                binding.onlineStatus.setBackgroundColor(themeColorUtils.primaryColor(context))
             }
             StatusType.AWAY -> {
                 clearTopStatus()
-                binding.awayStatus.setBackgroundColor(ThemeColorUtils.primaryColor(context))
+                binding.awayStatus.setBackgroundColor(themeColorUtils.primaryColor(context))
             }
             StatusType.DND -> {
                 clearTopStatus()
-                binding.dndStatus.setBackgroundColor(ThemeColorUtils.primaryColor(context))
+                binding.dndStatus.setBackgroundColor(themeColorUtils.primaryColor(context))
             }
             StatusType.INVISIBLE -> {
                 clearTopStatus()
-                binding.invisibleStatus.setBackgroundColor(ThemeColorUtils.primaryColor(context))
+                binding.invisibleStatus.setBackgroundColor(themeColorUtils.primaryColor(context))
             }
             else -> clearTopStatus()
         }

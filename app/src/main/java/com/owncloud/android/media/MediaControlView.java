@@ -67,13 +67,16 @@ public class MediaControlView extends FrameLayout implements OnClickListener, On
     private ImageButton pauseButton;
     private ImageButton forwardButton;
     private ImageButton rewindButton;
+    private ThemeColorUtils themeColorUtils;
 
-    public MediaControlView(Context context, AttributeSet attrs) {
+    public MediaControlView(Context context, AttributeSet attrs, ThemeColorUtils themeColorUtils) {
         super(context, attrs);
 
+        this.themeColorUtils = themeColorUtils;
+
         FrameLayout.LayoutParams frameParams = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
         );
         LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         root = inflate.inflate(R.layout.media_control, null);
@@ -125,10 +128,10 @@ public class MediaControlView extends FrameLayout implements OnClickListener, On
         if (progressBar != null) {
             if (progressBar instanceof SeekBar) {
                 SeekBar seeker = (SeekBar) progressBar;
-                ThemeBarUtils.colorHorizontalSeekBar(seeker, getContext());
+                ThemeBarUtils.colorHorizontalSeekBar(seeker, getContext(), themeColorUtils);
                 seeker.setOnSeekBarChangeListener(this);
             } else {
-                ThemeBarUtils.colorHorizontalProgressBar(progressBar, ThemeColorUtils.primaryAccentColor(getContext()));
+                ThemeBarUtils.colorHorizontalProgressBar(progressBar, themeColorUtils.primaryAccentColor(getContext()));
             }
             progressBar.setMax(1000);
         }

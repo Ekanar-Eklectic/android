@@ -331,9 +331,9 @@ public final class DisplayUtils {
      * @param relative relative value for which the info level color should be looked up
      * @return info level color
      */
-    public static int getRelativeInfoColor(Context context, int relative) {
+    public static int getRelativeInfoColor(Context context, int relative, ThemeColorUtils themeColorUtils) {
         if (relative < RELATIVE_THRESHOLD_WARNING) {
-            return ThemeColorUtils.primaryColor(context, true);
+            return themeColorUtils.primaryColor(context, true);
         } else {
             return context.getResources().getColor(R.color.infolevel_warning);
         }
