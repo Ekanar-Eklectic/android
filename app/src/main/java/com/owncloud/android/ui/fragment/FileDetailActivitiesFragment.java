@@ -118,6 +118,7 @@ public class FileDetailActivitiesFragment extends Fragment implements
     @Inject ThemeLayoutUtils themeLayoutUtils;
     @Inject ThemeToolbarUtils themeToolbarUtils;
     @Inject ThemeDrawableUtils themeDrawableUtils;
+    @Inject ThemeTextInputUtils themeTextInputUtils;
 
     public static FileDetailActivitiesFragment newInstance(OCFile file, User user) {
         FileDetailActivitiesFragment fragment = new FileDetailActivitiesFragment();
@@ -182,7 +183,7 @@ public class FileDetailActivitiesFragment extends Fragment implements
 
         binding.submitComment.setOnClickListener(v -> submitComment());
 
-        ThemeTextInputUtils.colorTextInput(binding.commentInputFieldContainer,
+        themeTextInputUtils.colorTextInput(binding.commentInputFieldContainer,
                                            binding.commentInputField,
                                            themeColorUtils.primaryColor(getContext()));
 

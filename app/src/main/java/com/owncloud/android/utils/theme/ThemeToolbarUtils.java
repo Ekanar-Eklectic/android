@@ -47,11 +47,14 @@ import androidx.core.content.res.ResourcesCompat;
 public class ThemeToolbarUtils {
     private final ThemeColorUtils themeColorUtils;
     private final ThemeDrawableUtils themeDrawableUtils;
+    private final ThemeTextInputUtils themeTextInputUtils;
 
     public ThemeToolbarUtils(ThemeColorUtils themeColorUtils,
-                             ThemeDrawableUtils themeDrawableUtils) {
+                             ThemeDrawableUtils themeDrawableUtils,
+                             ThemeTextInputUtils themeTextInputUtils) {
         this.themeColorUtils = themeColorUtils;
         this.themeDrawableUtils = themeDrawableUtils;
+        this.themeTextInputUtils = themeTextInputUtils;
     }
 
     /**
@@ -122,7 +125,7 @@ public class ThemeToolbarUtils {
         int fontColor = themeColorUtils.appBarPrimaryFontColor(context);
         SearchView.SearchAutoComplete editText = searchView.findViewById(R.id.search_src_text);
         editText.setTextSize(16);
-        ThemeTextInputUtils.setEditTextColor(context, editText, fontColor);
+        themeTextInputUtils.setEditTextColor(context, editText, fontColor);
         editText.setHintTextColor(themeColorUtils.appBarSecondaryFontColor(context));
 
         ImageView closeButton = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);

@@ -143,6 +143,7 @@ public class SettingsActivity extends ThemedPreferenceActivity
     @Inject ThemeToolbarUtils themeToolbarUtils;
     @Inject ThemeUtils themeUtils;
     @Inject ThemeTextUtils themeTextUtils;
+    @Inject ThemeButtonUtils themeButtonUtils;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -883,7 +884,7 @@ public class SettingsActivity extends ThemedPreferenceActivity
                     .create();
 
                 alertDialog.show();
-                ThemeButtonUtils.themeBorderlessButton(themeColorUtils,
+                themeButtonUtils.themeBorderlessButton(themeColorUtils,
                                                        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE));
             }
         }

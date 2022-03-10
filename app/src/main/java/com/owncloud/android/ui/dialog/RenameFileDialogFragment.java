@@ -65,6 +65,7 @@ public class RenameFileDialogFragment
     private static final String ARG_TARGET_FILE = "TARGET_FILE";
 
     @Inject ThemeColorUtils themeColorUtils;
+    @Inject ThemeTextInputUtils themeTextInputUtils;
 
     private EditBoxDialogBinding binding;
     private OCFile mTargetFile;
@@ -111,7 +112,7 @@ public class RenameFileDialogFragment
         // Setup layout
         String currentName = mTargetFile.getFileName();
         binding.userInput.setText(currentName);
-        ThemeTextInputUtils.colorTextInput(binding.userInputContainer,
+        themeTextInputUtils.colorTextInput(binding.userInputContainer,
                                            binding.userInput,
                                            themeColorUtils.primaryColor(getActivity()));
         int extensionStart = mTargetFile.isFolder() ? -1 : currentName.lastIndexOf('.');

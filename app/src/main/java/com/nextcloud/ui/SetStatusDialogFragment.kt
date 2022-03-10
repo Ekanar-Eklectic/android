@@ -109,6 +109,12 @@ class SetStatusDialogFragment :
     @Inject
     lateinit var themeColorUtils: ThemeColorUtils
 
+    @Inject
+    lateinit var themeButtonUtils: ThemeButtonUtils
+
+    @Inject
+    lateinit var themeTextInputUtils: ThemeTextInputUtils
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -215,8 +221,8 @@ class SetStatusDialogFragment :
         }
 
         binding.clearStatus.setTextColor(themeColorUtils.primaryColor(context, true))
-        ThemeButtonUtils.colorPrimaryButton(binding.setStatus, context, themeColorUtils)
-        ThemeTextInputUtils.colorTextInput(
+        themeButtonUtils.colorPrimaryButton(binding.setStatus, context, themeColorUtils)
+        themeTextInputUtils.colorTextInput(
             binding.customStatusInputContainer,
             binding.customStatusInput,
             themeColorUtils.primaryColor(activity)

@@ -91,7 +91,6 @@ import com.owncloud.android.utils.DisplayUtils;
 import com.owncloud.android.utils.ErrorMessageAdapter;
 import com.owncloud.android.utils.FileSortOrder;
 import com.owncloud.android.utils.MimeType;
-import com.owncloud.android.utils.theme.ThemeButtonUtils;
 import com.owncloud.android.utils.theme.ThemeColorUtils;
 import com.owncloud.android.utils.theme.ThemeTextInputUtils;
 
@@ -146,6 +145,7 @@ public class ReceiveExternalFilesActivity extends FileActivity
     @Inject AppPreferences preferences;
     @Inject LocalBroadcastManager localBroadcastManager;
     @Inject ThemeColorUtils themeColorUtils;
+    @Inject ThemeTextInputUtils themeTextInputUtils;
     private AccountManager mAccountManager;
     private Stack<String> mParents = new Stack<>();
     private List<Parcelable> mStreamsToUpload;
@@ -326,6 +326,7 @@ public class ReceiveExternalFilesActivity extends FileActivity
         private Spinner mSpinner;
         @Inject AppPreferences preferences;
         @Inject ThemeColorUtils themeColorUtils;
+        @Inject ThemeTextInputUtils themeTextInputUtils;
 
         public static DialogInputUploadFilename newInstance(String subjectText, String extraText) {
             DialogInputUploadFilename dialog = new DialogInputUploadFilename();
@@ -420,7 +421,7 @@ public class ReceiveExternalFilesActivity extends FileActivity
             final TextInputLayout userInputContainer = view.findViewById(R.id.user_input_container);
             setFilename(userInput, selectPos);
             userInput.requestFocus();
-            ThemeTextInputUtils.colorTextInput(userInputContainer, userInput, themeColorUtils.primaryColor(getContext()));
+            themeTextInputUtils.colorTextInput(userInputContainer, userInput, themeColorUtils.primaryColor(getContext()));
 
             final Spinner spinner = view.findViewById(R.id.file_type);
             setupSpinner(adapter, selectPos, userInput, spinner);
@@ -772,12 +773,12 @@ public class ReceiveExternalFilesActivity extends FileActivity
                 mListView.setAdapter(sa);
             }
             MaterialButton btnChooseFolder = findViewById(R.id.uploader_choose_folder);
-            ThemeButtonUtils.colorPrimaryButton(btnChooseFolder, this, themeColorUtils);
+            themeButtonUtils.colorPrimaryButton(btnChooseFolder, this, themeColorUtils);
             btnChooseFolder.setOnClickListener(this);
 
             if (mFile.canWrite()) {
                 btnChooseFolder.setEnabled(true);
-                ThemeButtonUtils.colorPrimaryButton(btnChooseFolder, this, themeColorUtils);
+                themeButtonUtils.colorPrimaryButton(btnChooseFolder, this, themeColorUtils);
             } else {
                 btnChooseFolder.setEnabled(false);
                 btnChooseFolder.setBackgroundColor(Color.GRAY);

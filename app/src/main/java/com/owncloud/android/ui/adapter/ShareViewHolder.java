@@ -49,6 +49,7 @@ class ShareViewHolder extends RecyclerView.ViewHolder {
     private User user;
     private Context context;
     private ThemeColorUtils themeColorUtils;
+    private ThemeAvatarUtils themeAvatarUtils;
 
     public ShareViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -57,12 +58,14 @@ class ShareViewHolder extends RecyclerView.ViewHolder {
     public ShareViewHolder(FileDetailsShareShareItemBinding binding,
                            User user,
                            Context context,
-                           ThemeColorUtils themeColorUtils) {
+                           ThemeColorUtils themeColorUtils,
+                           ThemeAvatarUtils themeAvatarUtils) {
         this(binding.getRoot());
         this.binding = binding;
         this.user = user;
         this.context = context;
         this.themeColorUtils = themeColorUtils;
+        this.themeAvatarUtils = themeAvatarUtils;
     }
 
     public void bind(OCShare share,
@@ -77,14 +80,14 @@ class ShareViewHolder extends RecyclerView.ViewHolder {
         switch (share.getShareType()) {
             case GROUP:
                 name = context.getString(R.string.share_group_clarification, name);
-                ThemeAvatarUtils.createAvatar(share.getShareType(), binding.icon, context, themeColorUtils);
+                themeAvatarUtils.createAvatar(share.getShareType(), binding.icon, context, themeColorUtils);
                 break;
             case ROOM:
                 name = context.getString(R.string.share_room_clarification, name);
-                ThemeAvatarUtils.createAvatar(share.getShareType(), binding.icon, context, themeColorUtils);
+                themeAvatarUtils.createAvatar(share.getShareType(), binding.icon, context, themeColorUtils);
                 break;
             case CIRCLE:
-                ThemeAvatarUtils.createAvatar(share.getShareType(), binding.icon, context, themeColorUtils);
+                themeAvatarUtils.createAvatar(share.getShareType(), binding.icon, context, themeColorUtils);
                 break;
             case FEDERATED:
                 name = context.getString(R.string.share_remote_clarification, name);

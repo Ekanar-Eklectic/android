@@ -82,6 +82,8 @@ public class SyncedFolderPreferencesDialogFragment extends DialogFragment implem
     private final static float alphaDisabled = 0.7f;
 
     @Inject ThemeColorUtils themeColorUtils;
+    @Inject ThemeButtonUtils themeButtonUtils;
+    @Inject ThemeCheckableUtils themeCheckableUtils;
     protected View mView;
     private CharSequence[] mUploadBehaviorItemStrings;
     private CharSequence[] mNameCollisionPolicyItemStrings;
@@ -184,7 +186,7 @@ public class SyncedFolderPreferencesDialogFragment extends DialogFragment implem
 
         // find/saves UI elements
         mEnabledSwitch = view.findViewById(R.id.sync_enabled);
-        ThemeCheckableUtils.tintSwitch(mEnabledSwitch, themeColorUtils);
+        themeCheckableUtils.tintSwitch(mEnabledSwitch, themeColorUtils);
 
         mLocalFolderPath = view.findViewById(R.id.synced_folders_settings_local_folder_path);
 
@@ -200,7 +202,7 @@ public class SyncedFolderPreferencesDialogFragment extends DialogFragment implem
         mUploadUseSubfoldersCheckbox = view.findViewById(
                 R.id.setting_instant_upload_path_use_subfolders_checkbox);
 
-        ThemeCheckableUtils.tintCheckbox(accentColor,
+        themeCheckableUtils.tintCheckbox(accentColor,
                                          mUploadOnWifiCheckbox,
                                          mUploadOnChargingCheckbox,
                                          mUploadExistingCheckbox,
@@ -213,7 +215,7 @@ public class SyncedFolderPreferencesDialogFragment extends DialogFragment implem
         mCancel = view.findViewById(R.id.cancel);
         mSave = view.findViewById(R.id.save);
 
-        ThemeButtonUtils.themeBorderlessButton(themeColorUtils, mCancel, mSave);
+        themeButtonUtils.themeBorderlessButton(themeColorUtils, mCancel, mSave);
 
         // Set values
         setEnabled(mSyncedFolder.isEnabled());
@@ -359,13 +361,13 @@ public class SyncedFolderPreferencesDialogFragment extends DialogFragment implem
         view.findViewById(R.id.setting_instant_name_collision_policy_container).setAlpha(alpha);
 
         if (enable) {
-            ThemeCheckableUtils.tintCheckbox(themeColorUtils.primaryAccentColor(getContext()),
+            themeCheckableUtils.tintCheckbox(themeColorUtils.primaryAccentColor(getContext()),
                                              mUploadOnWifiCheckbox,
                                              mUploadOnChargingCheckbox,
                                              mUploadExistingCheckbox,
                                              mUploadUseSubfoldersCheckbox);
         } else {
-            ThemeCheckableUtils.tintCheckbox(Color.GRAY,
+            themeCheckableUtils.tintCheckbox(Color.GRAY,
                                              mUploadOnWifiCheckbox,
                                              mUploadOnChargingCheckbox,
                                              mUploadExistingCheckbox,

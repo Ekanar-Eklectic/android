@@ -54,6 +54,8 @@ public class NoteDialogFragment extends DialogFragment implements DialogInterfac
     private static final String ARG_SHARE = "SHARE";
 
     @Inject ThemeColorUtils themeColorUtils;
+    @Inject ThemeButtonUtils themeButtonUtils;
+    @Inject ThemeTextInputUtils themeTextInputUtils;
 
     private OCShare share;
     private NoteDialogBinding binding;
@@ -84,7 +86,7 @@ public class NoteDialogFragment extends DialogFragment implements DialogInterfac
 
         AlertDialog alertDialog = (AlertDialog) getDialog();
 
-        ThemeButtonUtils.themeBorderlessButton(themeColorUtils,
+        themeButtonUtils.themeBorderlessButton(themeColorUtils,
                                                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE),
                                                alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL));
     }
@@ -102,7 +104,7 @@ public class NoteDialogFragment extends DialogFragment implements DialogInterfac
         // Setup layout
         binding.noteText.setText(share.getNote());
         binding.noteText.requestFocus();
-        ThemeTextInputUtils.colorTextInput(binding.noteContainer, binding.noteText, primaryColor);
+        themeTextInputUtils.colorTextInput(binding.noteContainer, binding.noteText, primaryColor);
 
         // Build the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());

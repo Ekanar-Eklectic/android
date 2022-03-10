@@ -86,6 +86,8 @@ public class ChooseRichDocumentsTemplateDialogFragment extends DialogFragment im
     @Inject CurrentAccountProvider currentAccount;
     @Inject ClientFactory clientFactory;
     @Inject ThemeColorUtils themeColorUtils;
+    @Inject ThemeButtonUtils themeButtonUtils;
+    @Inject ThemeTextInputUtils themeTextInputUtils;
     private RichDocumentsTemplateAdapter adapter;
     private OCFile parentFolder;
     private OwnCloudClient client;
@@ -116,7 +118,7 @@ public class ChooseRichDocumentsTemplateDialogFragment extends DialogFragment im
         AlertDialog alertDialog = (AlertDialog) getDialog();
 
         positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        ThemeButtonUtils.themeBorderlessButton(themeColorUtils,
+        themeButtonUtils.themeBorderlessButton(themeColorUtils,
                                                positiveButton,
                                                alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL));
         positiveButton.setOnClickListener(this);
@@ -152,7 +154,7 @@ public class ChooseRichDocumentsTemplateDialogFragment extends DialogFragment im
         View view = binding.getRoot();
 
         binding.filename.requestFocus();
-        ThemeTextInputUtils.colorTextInput(binding.filenameContainer,
+        themeTextInputUtils.colorTextInput(binding.filenameContainer,
                                            binding.filename,
                                            themeColorUtils.primaryColor(getContext()));
 

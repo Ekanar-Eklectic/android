@@ -60,13 +60,15 @@ public class CreateFolderDialogFragment
     public static final String CREATE_FOLDER_FRAGMENT = "CREATE_FOLDER_FRAGMENT";
 
     @Inject ThemeColorUtils themeColorUtils;
+    @Inject ThemeButtonUtils themeButtonUtils;
+    @Inject ThemeTextInputUtils themeTextInputUtils;
 
     private OCFile mParentFolder;
 
     /**
      * Public factory method to create new CreateFolderDialogFragment instances.
      *
-     * @param parentFolder            Folder to create
+     * @param parentFolder Folder to create
      * @return Dialog ready to show.
      */
     public static CreateFolderDialogFragment newInstance(OCFile parentFolder) {
@@ -84,7 +86,7 @@ public class CreateFolderDialogFragment
 
         AlertDialog alertDialog = (AlertDialog) getDialog();
 
-        ThemeButtonUtils.themeBorderlessButton(themeColorUtils,
+        themeButtonUtils.themeBorderlessButton(themeColorUtils,
                                                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE),
                                                alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL));
     }
@@ -103,7 +105,7 @@ public class CreateFolderDialogFragment
         // Setup layout
         binding.userInput.setText("");
         binding.userInput.requestFocus();
-        ThemeTextInputUtils.colorTextInput(binding.userInputContainer, binding.userInput, primaryColor);
+        themeTextInputUtils.colorTextInput(binding.userInputContainer, binding.userInput, primaryColor);
 
         // Build the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

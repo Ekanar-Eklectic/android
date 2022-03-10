@@ -103,6 +103,7 @@ import com.owncloud.android.utils.EncryptionUtils;
 import com.owncloud.android.utils.FileSortOrder;
 import com.owncloud.android.utils.FileStorageUtils;
 import com.owncloud.android.utils.MimeTypeUtil;
+import com.owncloud.android.utils.theme.ThemeAvatarUtils;
 import com.owncloud.android.utils.theme.ThemeColorUtils;
 import com.owncloud.android.utils.theme.ThemeFabUtils;
 import com.owncloud.android.utils.theme.ThemeToolbarUtils;
@@ -191,6 +192,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
     @Inject ThemeFabUtils themeFabUtils;
     @Inject ThemeToolbarUtils themeToolbarUtils;
     @Inject ThemeUtils themeUtils;
+    @Inject ThemeAvatarUtils themeAvatarUtils;
     protected FileFragment.ContainerActivity mContainerActivity;
 
     protected OCFile mFile;
@@ -365,7 +367,8 @@ public class OCFileListFragment extends ExtendedListFragment implements
             hideItemOptions,
             isGridViewPreferred(mFile),
             themeColorUtils,
-            themeDrawableUtils
+            themeDrawableUtils,
+            themeAvatarUtils
         );
         setRecyclerViewAdapter(mAdapter);
 

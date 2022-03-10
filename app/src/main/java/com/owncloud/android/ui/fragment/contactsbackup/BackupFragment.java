@@ -88,6 +88,8 @@ public class BackupFragment extends FileFragment implements DatePickerDialog.OnD
     @Inject ThemeColorUtils themeColorUtils;
     @Inject ThemeToolbarUtils themeToolbarUtils;
     @Inject ThemeUtils themeUtils;
+    @Inject ThemeCheckableUtils themeCheckableUtils;
+    @Inject ThemeButtonUtils themeButtonUtils;
 
     private Date selectedDate;
     private boolean calendarPickerOpen;
@@ -140,9 +142,9 @@ public class BackupFragment extends FileFragment implements DatePickerDialog.OnD
 
         arbitraryDataProvider = new ArbitraryDataProvider(getContext().getContentResolver());
 
-        ThemeCheckableUtils.tintSwitch(binding.contacts, themeColorUtils);
-        ThemeCheckableUtils.tintSwitch(binding.calendar, themeColorUtils);
-        ThemeCheckableUtils.tintSwitch(binding.dailyBackup, themeColorUtils);
+        themeCheckableUtils.tintSwitch(binding.contacts, themeColorUtils);
+        themeCheckableUtils.tintSwitch(binding.calendar, themeColorUtils);
+        themeCheckableUtils.tintSwitch(binding.dailyBackup, themeColorUtils);
         binding.dailyBackup.setChecked(arbitraryDataProvider.getBooleanValue(user,
                                                                              PREFERENCE_CONTACTS_AUTOMATIC_BACKUP));
 
@@ -210,8 +212,8 @@ public class BackupFragment extends FileFragment implements DatePickerDialog.OnD
             calendarPickerOpen = true;
         }
 
-        ThemeButtonUtils.colorPrimaryButton(binding.backupNow, getContext(), themeColorUtils);
-        ThemeButtonUtils.themeBorderlessButton(themeColorUtils, binding.contactsDatepicker);
+        themeButtonUtils.colorPrimaryButton(binding.backupNow, getContext(), themeColorUtils);
+        themeButtonUtils.themeBorderlessButton(themeColorUtils, binding.contactsDatepicker);
 
         int primaryAccentColor = themeColorUtils.primaryAccentColor(getContext());
         binding.dataToBackUpTitle.setTextColor(primaryAccentColor);

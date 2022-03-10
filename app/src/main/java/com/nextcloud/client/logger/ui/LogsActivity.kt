@@ -40,6 +40,8 @@ class LogsActivity : ToolbarActivity() {
 
     @Inject
     protected lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    protected lateinit var themeBarUtils: ThemeBarUtils
     private lateinit var vm: LogsViewModel
     private lateinit var binding: LogsActivityBinding
     private lateinit var logsAdapter: LogsAdapter
@@ -64,7 +66,7 @@ class LogsActivity : ToolbarActivity() {
         }
 
         findViewById<ProgressBar>(R.id.logs_loading_progress).apply {
-            ThemeBarUtils.themeProgressBar(context, this, themeColorUtils)
+            themeBarUtils.themeProgressBar(context, this, themeColorUtils)
         }
 
         logsAdapter = LogsAdapter(this)

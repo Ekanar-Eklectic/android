@@ -83,7 +83,7 @@ import com.owncloud.android.utils.DisplayUtils;
 import com.owncloud.android.utils.FileSortOrder;
 import com.owncloud.android.utils.FileStorageUtils;
 import com.owncloud.android.utils.MimeTypeUtil;
-import com.owncloud.android.utils.theme.CapabilityUtils;
+import com.owncloud.android.utils.theme.ThemeAvatarUtils;
 import com.owncloud.android.utils.theme.ThemeColorUtils;
 import com.owncloud.android.utils.theme.ThemeDrawableUtils;
 
@@ -141,6 +141,7 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private boolean showMetadata = true;
     private final ThemeColorUtils themeColorUtils;
     private final ThemeDrawableUtils themeDrawableUtils;
+    private final ThemeAvatarUtils themeAvatarUtils;
 
     public OCFileListAdapter(
         Activity activity,
@@ -151,7 +152,8 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         boolean argHideItemOptions,
         boolean gridView,
         ThemeColorUtils themeColorUtils,
-        ThemeDrawableUtils themeDrawableUtils
+        ThemeDrawableUtils themeDrawableUtils,
+        ThemeAvatarUtils themeAvatarUtils
                             ) {
         this.ocFileListFragmentInterface = ocFileListFragmentInterface;
         this.activity = activity;
@@ -162,6 +164,7 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         checkedFiles = new HashSet<>();
         this.themeColorUtils = themeColorUtils;
         this.themeDrawableUtils = themeDrawableUtils;
+        this.themeAvatarUtils = themeAvatarUtils;
 
         this.transferServiceGetter = transferServiceGetter;
 
@@ -453,7 +456,11 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                     Log_OC.d(this, "sharees of " + file.getFileName() + ": " + sharees);
 
-                    itemViewHolder.getSharedAvatars().setAvatars(user, sharees, themeColorUtils, themeDrawableUtils);
+                    itemViewHolder.getSharedAvatars().setAvatars(user,
+                                                                 sharees,
+                                                                 themeColorUtils,
+                                                                 themeDrawableUtils,
+                                                                 themeAvatarUtils);
                     itemViewHolder.getSharedAvatars().setOnClickListener(
                         view -> ocFileListFragmentInterface.onShareIconClick(file));
                 } else {

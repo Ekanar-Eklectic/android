@@ -59,6 +59,7 @@ public class SortingOrderDialogFragment extends DialogFragment implements Inject
     private String mCurrentSortOrderName;
 
     @Inject ThemeColorUtils themeColorUtils;
+    @Inject ThemeButtonUtils themeButtonUtils;
 
     public static SortingOrderDialogFragment newInstance(FileSortOrder sortOrder) {
         SortingOrderDialogFragment dialogFragment = new SortingOrderDialogFragment();
@@ -142,7 +143,7 @@ public class SortingOrderDialogFragment extends DialogFragment implements Inject
                 continue;
             }
             if (view instanceof ImageButton) {
-                ThemeButtonUtils.colorImageButton((ImageButton)view, color);
+                themeButtonUtils.colorImageButton((ImageButton) view, color);
             }
             if (view instanceof TextView) {
                 ((TextView)view).setTextColor(color);

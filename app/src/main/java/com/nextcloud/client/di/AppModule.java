@@ -65,14 +65,6 @@ import com.owncloud.android.ui.activities.data.files.FilesRepository;
 import com.owncloud.android.ui.activities.data.files.FilesServiceApiImpl;
 import com.owncloud.android.ui.activities.data.files.RemoteFilesRepository;
 import com.owncloud.android.utils.theme.ThemeColorUtils;
-import com.owncloud.android.utils.theme.ThemeDrawableUtils;
-import com.owncloud.android.utils.theme.ThemeFabUtils;
-import com.owncloud.android.utils.theme.ThemeLayoutUtils;
-import com.owncloud.android.utils.theme.ThemeMenuUtils;
-import com.owncloud.android.utils.theme.ThemeSnackbarUtils;
-import com.owncloud.android.utils.theme.ThemeTextUtils;
-import com.owncloud.android.utils.theme.ThemeToolbarUtils;
-import com.owncloud.android.utils.theme.ThemeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -90,7 +82,7 @@ class AppModule {
 
     @Provides
     AccountManager accountManager(Application application) {
-        return (AccountManager)application.getSystemService(Context.ACCOUNT_SERVICE);
+        return (AccountManager) application.getSystemService(Context.ACCOUNT_SERVICE);
     }
 
     @Provides
@@ -117,7 +109,7 @@ class AppModule {
     UserAccountManager userAccountManager(
         Context context,
         AccountManager accountManager
-    ) {
+                                         ) {
         return new UserAccountManagerImpl(context, accountManager);
     }
 
@@ -174,7 +166,7 @@ class AppModule {
     @Singleton
     Logger logger(Context context, Clock clock) {
         File logDir = new File(context.getFilesDir(), "logs");
-        FileLogHandler handler = new FileLogHandler(logDir, "log.txt", 1024*1024);
+        FileLogHandler handler = new FileLogHandler(logDir, "log.txt", 1024 * 1024);
         LoggerImpl logger = new LoggerImpl(clock, handler, new Handler(), 1000);
         logger.start();
         return logger;
@@ -183,7 +175,7 @@ class AppModule {
     @Provides
     @Singleton
     LogsRepository logsRepository(Logger logger) {
-        return (LogsRepository)logger;
+        return (LogsRepository) logger;
     }
 
     @Provides
@@ -203,12 +195,12 @@ class AppModule {
 
     @Provides
     NotificationManager notificationManager(Context context) {
-        return (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Provides
     AudioManager audioManager(Context context) {
-        return (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+        return (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
     }
 
     @Provides
@@ -258,60 +250,5 @@ class AppModule {
     @Singleton
     PassCodeManager passCodeManager(AppPreferences preferences, Clock clock) {
         return new PassCodeManager(preferences, clock);
-    }
-
-    @Provides
-    @Singleton
-    ThemeColorUtils themeColorUtils() {
-        return new ThemeColorUtils();
-    }
-
-    @Provides
-    @Singleton
-    ThemeFabUtils themeFabUtils(ThemeColorUtils themeColorUtils, ThemeDrawableUtils themeDrawableUtils) {
-        return new ThemeFabUtils(themeColorUtils, themeDrawableUtils);
-    }
-
-    @Provides
-    @Singleton
-    ThemeLayoutUtils themeLayoutUtils(ThemeColorUtils themeColorUtils) {
-        return new ThemeLayoutUtils(themeColorUtils);
-    }
-
-    @Provides
-    @Singleton
-    ThemeToolbarUtils themeToolbarUtils(ThemeColorUtils themeColorUtils,
-                                        ThemeDrawableUtils themeDrawableUtils) {
-        return new ThemeToolbarUtils(themeColorUtils, themeDrawableUtils);
-    }
-
-    @Provides
-    @Singleton
-    ThemeDrawableUtils themeDrawableUtils(Context context) {
-        return new ThemeDrawableUtils(context);
-    }
-
-    @Provides
-    @Singleton
-    ThemeUtils themeUtils() {
-        return new ThemeUtils();
-    }
-
-    @Provides
-    @Singleton
-    ThemeMenuUtils themeMenuUtils() {
-        return new ThemeMenuUtils();
-    }
-
-    @Provides
-    @Singleton
-    ThemeSnackbarUtils themeSnackbarUtils() {
-        return new ThemeSnackbarUtils();
-    }
-
-    @Provides
-    @Singleton
-    ThemeTextUtils themeTextUtils() {
-        return new ThemeTextUtils();
     }
 }

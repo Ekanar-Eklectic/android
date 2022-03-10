@@ -61,6 +61,7 @@ public class LocalStoragePathPickerDialogFragment extends DialogFragment
     private static Set<String> internalStoragePaths = new HashSet<>();
 
     @Inject ThemeColorUtils themeColorUtils;
+    @Inject ThemeButtonUtils themeButtonUtils;
 
     static {
         internalStoragePaths.add("/storage/emulated/legacy");
@@ -81,7 +82,7 @@ public class LocalStoragePathPickerDialogFragment extends DialogFragment
         AlertDialog alertDialog = (AlertDialog) getDialog();
 
         if (alertDialog != null) {
-            ThemeButtonUtils.themeBorderlessButton(themeColorUtils,
+            themeButtonUtils.themeBorderlessButton(themeColorUtils,
                                                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
         }
     }

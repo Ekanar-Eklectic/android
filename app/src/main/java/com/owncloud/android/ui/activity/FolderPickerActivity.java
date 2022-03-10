@@ -56,7 +56,6 @@ import com.owncloud.android.utils.DataHolderUtil;
 import com.owncloud.android.utils.DisplayUtils;
 import com.owncloud.android.utils.ErrorMessageAdapter;
 import com.owncloud.android.utils.FileSortOrder;
-import com.owncloud.android.utils.theme.ThemeButtonUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -396,13 +395,13 @@ public class FolderPickerActivity extends FileActivity implements FileFragment.C
         mChooseBtn = findViewById(R.id.folder_picker_btn_choose);
 
         if (mChooseBtn != null) {
-            ThemeButtonUtils.colorPrimaryButton(mChooseBtn, this, themeColorUtils);
+            themeButtonUtils.colorPrimaryButton(mChooseBtn, this, themeColorUtils);
             mChooseBtn.setOnClickListener(this);
         }
 
         if (mCancelBtn != null) {
             if (this instanceof FilePickerActivity) {
-                ThemeButtonUtils.colorPrimaryButton(mCancelBtn, this, themeColorUtils);
+                themeButtonUtils.colorPrimaryButton(mCancelBtn, this, themeColorUtils);
             } else {
                 mCancelBtn.setTextColor(themeColorUtils.primaryColor(this, true));
             }

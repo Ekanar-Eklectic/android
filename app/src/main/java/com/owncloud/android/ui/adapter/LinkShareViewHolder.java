@@ -46,6 +46,7 @@ class LinkShareViewHolder extends RecyclerView.ViewHolder {
     private FileDetailsShareLinkShareItemBinding binding;
     private Context context;
     private ThemeColorUtils themeColorUtils;
+    private ThemeAvatarUtils themeAvatarUtils;
 
     public LinkShareViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -53,11 +54,13 @@ class LinkShareViewHolder extends RecyclerView.ViewHolder {
 
     public LinkShareViewHolder(FileDetailsShareLinkShareItemBinding binding,
                                Context context,
-                               ThemeColorUtils themeColorUtils) {
+                               ThemeColorUtils themeColorUtils,
+                               ThemeAvatarUtils themeAvatarUtils) {
         this(binding.getRoot());
         this.binding = binding;
         this.context = context;
         this.themeColorUtils = themeColorUtils;
+        this.themeAvatarUtils = themeAvatarUtils;
     }
 
     public void bind(OCShare publicShare, ShareeListAdapterListener listener) {
@@ -80,7 +83,7 @@ class LinkShareViewHolder extends RecyclerView.ViewHolder {
                 binding.name.setText(R.string.share_link);
             }
 
-            ThemeAvatarUtils.colorIconImageViewWithBackground(binding.icon, context, themeColorUtils);
+            themeAvatarUtils.colorIconImageViewWithBackground(binding.icon, context, themeColorUtils);
         }
 
         String permissionName = SharingMenuHelper.getPermissionName(context, publicShare);

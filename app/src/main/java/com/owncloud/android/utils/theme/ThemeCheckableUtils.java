@@ -37,7 +37,7 @@ import androidx.core.widget.CompoundButtonCompat;
  * Utility class with methods for client side checkable theming.
  */
 public final class ThemeCheckableUtils {
-    public static void tintCheckbox(int color, AppCompatCheckBox... checkBoxes) {
+    public void tintCheckbox(int color, AppCompatCheckBox... checkBoxes) {
         if (checkBoxes != null) {
             for (AppCompatCheckBox checkBox : checkBoxes) {
                 CompoundButtonCompat.setButtonTintList(checkBox, new ColorStateList(
@@ -54,7 +54,7 @@ public final class ThemeCheckableUtils {
         }
     }
 
-    public static void tintSwitch(SwitchCompat switchView, ThemeColorUtils themeColorUtils) {
+    public void tintSwitch(SwitchCompat switchView, ThemeColorUtils themeColorUtils) {
         int trackColor = switchView.getContext().getResources().getColor(R.color.grey_200);
         ColorStateList thumbColorStateList;
         ColorStateList trackColorStateList;

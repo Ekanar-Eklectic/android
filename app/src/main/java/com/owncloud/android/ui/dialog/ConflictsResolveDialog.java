@@ -75,6 +75,8 @@ public class ConflictsResolveDialog extends DialogFragment implements Injectable
     private Button positiveButton;
     @Inject ThemeColorUtils themeColorUtils;
     @Inject ThemeDrawableUtils themeDrawableUtils;
+    @Inject ThemeButtonUtils themeButtonUtils;
+    @Inject ThemeCheckableUtils themeCheckableUtils;
 
     private static final String KEY_NEW_FILE = "file";
     private static final String KEY_EXISTING_FILE = "ocfile";
@@ -122,7 +124,7 @@ public class ConflictsResolveDialog extends DialogFragment implements Injectable
         }
 
         positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        ThemeButtonUtils.themeBorderlessButton(themeColorUtils,
+        themeButtonUtils.themeBorderlessButton(themeColorUtils,
                                                positiveButton,
                                                alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL));
         positiveButton.setEnabled(false);
@@ -160,7 +162,7 @@ public class ConflictsResolveDialog extends DialogFragment implements Injectable
         // Inflate the layout for the dialog
         binding = ConflictResolveDialogBinding.inflate(requireActivity().getLayoutInflater());
 
-        ThemeCheckableUtils.tintCheckbox(themeColorUtils.primaryColor(getContext()),
+        themeCheckableUtils.tintCheckbox(themeColorUtils.primaryColor(getContext()),
                                          binding.newCheckbox,
                                          binding.existingCheckbox);
 

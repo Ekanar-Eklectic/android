@@ -27,6 +27,7 @@ import com.nextcloud.client.account.AnonymousUser
 import com.owncloud.android.lib.resources.shares.OCShare
 import com.owncloud.android.lib.resources.shares.ShareType
 import com.owncloud.android.ui.activity.FileActivity
+import com.owncloud.android.utils.theme.ThemeAvatarUtils
 import com.owncloud.android.utils.theme.ThemeColorUtils
 import org.junit.Assert
 import org.junit.Test
@@ -43,6 +44,9 @@ class ShareeListAdapterTest {
 
     @Mock
     private lateinit var themeColorUtils: ThemeColorUtils
+
+    @Mock
+    private lateinit var themeAvatarUtils: ThemeAvatarUtils
 
     @Test
     @Suppress("LongMethod")
@@ -98,7 +102,8 @@ class ShareeListAdapterTest {
             null,
             user.accountName,
             user,
-            themeColorUtils
+            themeColorUtils,
+            themeAvatarUtils
         )
         sut.sortShares()
 

@@ -90,6 +90,7 @@ public class SetupEncryptionDialogFragment extends DialogFragment implements Inj
     private static final String KEY_GENERATE = "KEY_GENERATE";
 
     @Inject ThemeColorUtils themeColorUtils;
+    @Inject ThemeButtonUtils themeButtonUtils;
 
     private User user;
     private TextView textView;
@@ -124,7 +125,7 @@ public class SetupEncryptionDialogFragment extends DialogFragment implements Inj
 
         positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
         neutralButton = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-        ThemeButtonUtils.themeBorderlessButton(themeColorUtils,
+        themeButtonUtils.themeBorderlessButton(themeColorUtils,
                                                positiveButton,
                                                neutralButton);
 
@@ -443,7 +444,7 @@ public class SetupEncryptionDialogFragment extends DialogFragment implements Inj
         positiveButton.setVisibility(View.VISIBLE);
 
         neutralButton.setVisibility(View.VISIBLE);
-        ThemeButtonUtils.themeBorderlessButton(themeColorUtils, positiveButton, neutralButton);
+        themeButtonUtils.themeBorderlessButton(themeColorUtils, positiveButton, neutralButton);
 
         keyResult = KEY_GENERATE;
     }

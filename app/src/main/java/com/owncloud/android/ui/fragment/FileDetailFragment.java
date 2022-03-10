@@ -114,6 +114,7 @@ public class FileDetailFragment extends FileFragment implements OnClickListener,
     @Inject FileDataStorageManager storageManager;
     @Inject ThemeColorUtils themeColorUtils;
     @Inject ThemeLayoutUtils themeLayoutUtils;
+    @Inject ThemeBarUtils themeBarUtils;
 
     /**
      * Public factory method to create new FileDetailFragment instances.
@@ -225,7 +226,7 @@ public class FileDetailFragment extends FileFragment implements OnClickListener,
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         if (getFile() != null && user != null) {
-            ThemeBarUtils.colorHorizontalProgressBar(binding.progressBar, themeColorUtils.primaryAccentColor(getContext()));
+            themeBarUtils.colorHorizontalProgressBar(binding.progressBar, themeColorUtils.primaryAccentColor(getContext()));
             progressListener = new ProgressListener(binding.progressBar);
             binding.cancelBtn.setOnClickListener(this);
             binding.favorite.setOnClickListener(this);

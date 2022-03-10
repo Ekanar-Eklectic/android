@@ -36,9 +36,9 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * Utility class with methods for client side button theming.
  */
 public final class ThemeAvatarUtils {
-    public static void colorIconImageViewWithBackground(ImageView imageView,
-                                                        Context context,
-                                                        ThemeColorUtils themeColorUtils) {
+    public void colorIconImageViewWithBackground(ImageView imageView,
+                                                 Context context,
+                                                 ThemeColorUtils themeColorUtils) {
         int primaryColor = themeColorUtils.primaryColor(null, true, false, context);
 
         imageView.getBackground().setColorFilter(primaryColor, PorterDuff.Mode.SRC_IN);
@@ -49,10 +49,10 @@ public final class ThemeAvatarUtils {
     @SuppressFBWarnings(
         value = "SF_SWITCH_NO_DEFAULT",
         justification = "We only create avatars for a subset of share types")
-    public static void createAvatar(ShareType type,
-                                    ImageView avatar,
-                                    Context context,
-                                    ThemeColorUtils themeColorUtils) {
+    public void createAvatar(ShareType type,
+                             ImageView avatar,
+                             Context context,
+                             ThemeColorUtils themeColorUtils) {
         switch (type) {
             case GROUP:
                 avatar.setImageResource(R.drawable.ic_group);
@@ -61,7 +61,7 @@ public final class ThemeAvatarUtils {
                                                                  null));
                 avatar.setCropToPadding(true);
                 avatar.setPadding(4, 4, 4, 4);
-                ThemeAvatarUtils.colorIconImageViewWithBackground(avatar, context, themeColorUtils);
+                colorIconImageViewWithBackground(avatar, context, themeColorUtils);
                 break;
 
             case ROOM:
@@ -71,7 +71,7 @@ public final class ThemeAvatarUtils {
                                                                  null));
                 avatar.setCropToPadding(true);
                 avatar.setPadding(8, 8, 8, 8);
-                ThemeAvatarUtils.colorIconImageViewWithBackground(avatar, context, themeColorUtils);
+                colorIconImageViewWithBackground(avatar, context, themeColorUtils);
                 break;
 
             case CIRCLE:

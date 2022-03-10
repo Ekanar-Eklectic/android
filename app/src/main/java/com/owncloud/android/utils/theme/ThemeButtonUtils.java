@@ -44,13 +44,13 @@ public final class ThemeButtonUtils {
      *
      * @param imageButton the image button who's icon should be colored
      */
-    public static void colorImageButton(ImageButton imageButton, @ColorInt int color) {
+    public void colorImageButton(ImageButton imageButton, @ColorInt int color) {
         if (imageButton != null) {
             imageButton.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         }
     }
 
-    public static void colorPrimaryButton(Button button, Context context, ThemeColorUtils themeColorUtils) {
+    public void colorPrimaryButton(Button button, Context context, ThemeColorUtils themeColorUtils) {
         int primaryColor = themeColorUtils.primaryColor(null, true, false, context);
         int fontColor = themeColorUtils.fontColor(context, false);
 
@@ -70,7 +70,7 @@ public final class ThemeButtonUtils {
      *
      * @param buttons borderless buttons to be themed
      */
-    public static void themeBorderlessButton(ThemeColorUtils themeColorUtils, @Nullable Button... buttons) {
+    public void themeBorderlessButton(ThemeColorUtils themeColorUtils, @Nullable Button... buttons) {
         if (buttons == null || buttons.length < 1) {
             return;
         }
@@ -83,7 +83,7 @@ public final class ThemeButtonUtils {
      * @param color   theme color
      * @param buttons borderless buttons to be themed
      */
-    public static void themeBorderlessButton(int color, @Nullable Button... buttons) {
+    public void themeBorderlessButton(int color, @Nullable Button... buttons) {
         if (buttons == null || buttons.length < 1) {
             return;
         }

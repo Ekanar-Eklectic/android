@@ -55,7 +55,6 @@ import com.owncloud.android.ui.fragment.LocalFileListFragment;
 import com.owncloud.android.utils.DisplayUtils;
 import com.owncloud.android.utils.FileSortOrder;
 import com.owncloud.android.utils.PermissionUtil;
-import com.owncloud.android.utils.theme.ThemeButtonUtils;
 import com.owncloud.android.utils.theme.ThemeSnackbarUtils;
 import com.owncloud.android.utils.theme.ThemeColorUtils;
 import com.owncloud.android.utils.theme.ThemeDrawableUtils;
@@ -194,7 +193,7 @@ public class UploadFilesActivity extends DrawerActivity implements LocalFileList
         cancelButton.setOnClickListener(this);
 
         uploadButton = findViewById(R.id.upload_files_btn_upload);
-        ThemeButtonUtils.colorPrimaryButton(uploadButton, this, themeColorUtils);
+        themeButtonUtils.colorPrimaryButton(uploadButton, this, themeColorUtils);
         uploadButton.setOnClickListener(this);
         uploadButton.setEnabled(mLocalFolderPickerMode);
 

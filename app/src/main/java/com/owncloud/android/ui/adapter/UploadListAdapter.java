@@ -92,6 +92,7 @@ public class UploadListAdapter extends SectionedRecyclerViewAdapter<SectionedVie
     private boolean showUser;
     private ThemeColorUtils themeColorUtils;
     private ThemeDrawableUtils themeDrawableUtils;
+    private ThemeBarUtils themeBarUtils;
 
     @Override
     public int getSectionCount() {
@@ -172,7 +173,8 @@ public class UploadListAdapter extends SectionedRecyclerViewAdapter<SectionedVie
                              final PowerManagementService powerManagementService,
                              final Clock clock,
                              final ThemeColorUtils themeColorUtils,
-                             final ThemeDrawableUtils themeDrawableUtils) {
+                             final ThemeDrawableUtils themeDrawableUtils,
+                             final ThemeBarUtils themeBarUtils) {
         Log_OC.d(TAG, "UploadListAdapter");
         this.parentActivity = fileActivity;
         this.uploadsStorageManager = uploadsStorageManager;
@@ -183,6 +185,8 @@ public class UploadListAdapter extends SectionedRecyclerViewAdapter<SectionedVie
         this.clock = clock;
         this.themeColorUtils = themeColorUtils;
         this.themeDrawableUtils = themeDrawableUtils;
+        this.themeBarUtils = themeBarUtils;
+
         uploadGroups = new UploadGroup[3];
 
         shouldShowHeadersForEmptySections(false);
@@ -276,7 +280,7 @@ public class UploadListAdapter extends SectionedRecyclerViewAdapter<SectionedVie
         String status = getStatusText(item);
         switch (item.getUploadStatus()) {
             case UPLOAD_IN_PROGRESS:
-                ThemeBarUtils.colorHorizontalProgressBar(itemViewHolder.binding.uploadProgressBar,
+                themeBarUtils.colorHorizontalProgressBar(itemViewHolder.binding.uploadProgressBar,
                                                          themeColorUtils.primaryAccentColor(parentActivity));
                 itemViewHolder.binding.uploadProgressBar.setProgress(0);
                 itemViewHolder.binding.uploadProgressBar.setVisibility(View.VISIBLE);

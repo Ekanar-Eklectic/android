@@ -40,6 +40,7 @@ import com.owncloud.android.lib.resources.shares.OCShare;
 import com.owncloud.android.lib.resources.shares.ShareType;
 import com.owncloud.android.ui.activity.FileActivity;
 import com.owncloud.android.utils.DisplayUtils;
+import com.owncloud.android.utils.theme.ThemeAvatarUtils;
 import com.owncloud.android.utils.theme.ThemeColorUtils;
 
 import java.util.ArrayList;
@@ -55,26 +56,29 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ShareeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     implements DisplayUtils.AvatarGenerationListener {
 
-    private ShareeListAdapterListener listener;
-    private FileActivity fileActivity;
+    private final ShareeListAdapterListener listener;
+    private final FileActivity fileActivity;
     private List<OCShare> shares;
-    private float avatarRadiusDimension;
-    private String userId;
-    private User user;
-    private ThemeColorUtils themeColorUtils;
+    private final float avatarRadiusDimension;
+    private final String userId;
+    private final User user;
+    private final ThemeColorUtils themeColorUtils;
+    private final ThemeAvatarUtils themeAvatarUtils;
 
     public ShareeListAdapter(FileActivity fileActivity,
                              List<OCShare> shares,
                              ShareeListAdapterListener listener,
                              String userId,
                              User user,
-                             ThemeColorUtils themeColorUtils) {
+                             ThemeColorUtils themeColorUtils,
+                             ThemeAvatarUtils themeAvatarUtils) {
         this.fileActivity = fileActivity;
         this.shares = shares;
         this.listener = listener;
         this.userId = userId;
         this.user = user;
         this.themeColorUtils = themeColorUtils;
+        this.themeAvatarUtils = themeAvatarUtils;
 
         avatarRadiusDimension = fileActivity.getResources().getDimension(R.dimen.user_icon_radius);
 
@@ -97,7 +101,8 @@ public class ShareeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                  parent,
                                                                  false),
                     fileActivity,
-                    themeColorUtils);
+                    themeColorUtils,
+                    themeAvatarUtils);
             case NEW_PUBLIC_LINK:
                 return new NewLinkShareViewHolder(
                     FileDetailsSharePublicLinkAddNewItemBinding.inflate(LayoutInflater.from(fileActivity),
@@ -114,7 +119,8 @@ public class ShareeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                                     false),
                                            user,
                                            fileActivity,
-                                           themeColorUtils);
+                                           themeColorUtils,
+                                           themeAvatarUtils);
         }
     }
 

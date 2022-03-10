@@ -45,6 +45,7 @@ public class ConfirmationDialogFragment extends DialogFragment implements Inject
     public static final String FTAG_CONFIRMATION = "CONFIRMATION_FRAGMENT";
 
     @Inject ThemeColorUtils themeColorUtils;
+    @Inject ThemeButtonUtils themeButtonUtils;
 
     private ConfirmationDialogFragmentListener mListener;
 
@@ -83,7 +84,7 @@ public class ConfirmationDialogFragment extends DialogFragment implements Inject
 
         AlertDialog alertDialog = (AlertDialog) getDialog();
 
-        ThemeButtonUtils.themeBorderlessButton(themeColorUtils,
+        themeButtonUtils.themeBorderlessButton(themeColorUtils,
                                                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE),
                                                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE),
                                                alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL));

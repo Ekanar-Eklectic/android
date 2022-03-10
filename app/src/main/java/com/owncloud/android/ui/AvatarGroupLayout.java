@@ -87,7 +87,8 @@ public class AvatarGroupLayout extends RelativeLayout implements DisplayUtils.Av
     public void setAvatars(@NonNull User user,
                            @NonNull List<ShareeUser> sharees,
                            ThemeColorUtils themeColorUtils,
-                           ThemeDrawableUtils themeDrawableUtils) {
+                           ThemeDrawableUtils themeDrawableUtils,
+                           ThemeAvatarUtils themeAvatarUtils) {
         @NonNull Context context = getContext();
         removeAllViews();
         RelativeLayout.LayoutParams avatarLayoutParams;
@@ -121,7 +122,7 @@ public class AvatarGroupLayout extends RelativeLayout implements DisplayUtils.Av
                     case EMAIL:
                     case ROOM:
                     case CIRCLE:
-                        ThemeAvatarUtils.createAvatar(sharee.getShareType(), avatar, context, themeColorUtils);
+                        themeAvatarUtils.createAvatar(sharee.getShareType(), avatar, context, themeColorUtils);
                         break;
                     case FEDERATED:
                         showFederatedShareAvatar(context,

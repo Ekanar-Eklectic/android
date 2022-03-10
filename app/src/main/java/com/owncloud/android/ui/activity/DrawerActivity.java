@@ -212,6 +212,9 @@ public abstract class DrawerActivity extends ToolbarActivity
     @Inject
     ThemeMenuUtils themeMenuUtils;
 
+    @Inject
+    ThemeBarUtils themeBarUtils;
+
     /**
      * Initializes the drawer, its content and highlights the menu item with the given id. This method needs to be
      * called after the content view has been set.
@@ -296,7 +299,7 @@ public abstract class DrawerActivity extends ToolbarActivity
         mQuotaProgressBar = (ProgressBar) findQuotaViewById(R.id.drawer_quota_ProgressBar);
         mQuotaTextPercentage = (TextView) findQuotaViewById(R.id.drawer_quota_percentage);
         mQuotaTextLink = (TextView) findQuotaViewById(R.id.drawer_quota_link);
-        ThemeBarUtils.colorProgressBar(mQuotaProgressBar, themeColorUtils.primaryColor(this));
+        themeBarUtils.colorProgressBar(mQuotaProgressBar, themeColorUtils.primaryColor(this));
     }
 
     public void updateHeader() {
@@ -683,7 +686,7 @@ public abstract class DrawerActivity extends ToolbarActivity
 
         mQuotaProgressBar.setProgress(relative);
 
-        ThemeBarUtils.colorProgressBar(mQuotaProgressBar, DisplayUtils.getRelativeInfoColor(this,
+        themeBarUtils.colorProgressBar(mQuotaProgressBar, DisplayUtils.getRelativeInfoColor(this,
                                                                                             relative,
                                                                                             themeColorUtils));
 

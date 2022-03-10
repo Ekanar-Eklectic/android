@@ -258,7 +258,7 @@ public class NotificationsActivity extends DrawerActivity implements Notificatio
     private void initializeAdapter() {
         initializeClient();
         if (adapter == null) {
-            adapter = new NotificationListAdapter(client, this, themeColorUtils);
+            adapter = new NotificationListAdapter(client, this, themeColorUtils, themeButtonUtils);
             binding.list.setAdapter(adapter);
         }
     }

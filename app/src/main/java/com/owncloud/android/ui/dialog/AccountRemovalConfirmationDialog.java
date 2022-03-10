@@ -44,6 +44,7 @@ public class AccountRemovalConfirmationDialog extends DialogFragment implements 
 
     @Inject BackgroundJobManager backgroundJobManager;
     @Inject ThemeColorUtils themeColorUtils;
+    @Inject ThemeButtonUtils themeButtonUtils;
     private User user;
 
     public static AccountRemovalConfirmationDialog newInstance(User user) {
@@ -68,7 +69,7 @@ public class AccountRemovalConfirmationDialog extends DialogFragment implements 
 
         AlertDialog alertDialog = (AlertDialog) getDialog();
 
-        ThemeButtonUtils.themeBorderlessButton(themeColorUtils,
+        themeButtonUtils.themeBorderlessButton(themeColorUtils,
                                                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE),
                                                alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL));
     }

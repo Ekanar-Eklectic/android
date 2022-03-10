@@ -31,7 +31,6 @@ import com.google.android.material.button.MaterialButton;
 import com.owncloud.android.R;
 import com.owncloud.android.databinding.CommunityLayoutBinding;
 import com.owncloud.android.utils.DisplayUtils;
-import com.owncloud.android.utils.theme.ThemeButtonUtils;
 
 /**
  * Activity providing information about ways to participate in the app's development.
@@ -87,7 +86,7 @@ public class CommunityActivity extends DrawerActivity {
                                 getString(R.string.contributing_link)))));
 
         MaterialButton reportButton = binding.communityTestingReport;
-        ThemeButtonUtils.colorPrimaryButton(reportButton, this, themeColorUtils);
+        themeButtonUtils.colorPrimaryButton(reportButton, this, themeColorUtils);
         reportButton.setOnClickListener(v -> DisplayUtils.startLinkIntent(this, R.string.report_issue_link));
 
         binding.communityBetaFdroid.setOnClickListener(

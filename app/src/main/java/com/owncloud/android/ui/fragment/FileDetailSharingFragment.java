@@ -61,6 +61,7 @@ import com.owncloud.android.ui.fragment.util.FileDetailSharingFragmentHelper;
 import com.owncloud.android.ui.helpers.FileOperationsHelper;
 import com.owncloud.android.utils.ClipboardUtil;
 import com.owncloud.android.utils.DisplayUtils;
+import com.owncloud.android.utils.theme.ThemeAvatarUtils;
 import com.owncloud.android.utils.theme.ThemeColorUtils;
 import com.owncloud.android.utils.theme.ThemeDrawableUtils;
 import com.owncloud.android.utils.theme.ThemeSnackbarUtils;
@@ -104,6 +105,7 @@ public class FileDetailSharingFragment extends Fragment implements ShareeListAda
     @Inject ThemeToolbarUtils themeToolbarUtils;
     @Inject ThemeSnackbarUtils themeSnackbarUtils;
     @Inject ThemeDrawableUtils themeDrawableUtils;
+    @Inject ThemeAvatarUtils themeAvatarUtils;
 
     public static FileDetailSharingFragment newInstance(OCFile file, User user) {
         FileDetailSharingFragment fragment = new FileDetailSharingFragment();
@@ -169,7 +171,8 @@ public class FileDetailSharingFragment extends Fragment implements ShareeListAda
                                                             this,
                                                             userId,
                                                             user,
-                                                            themeColorUtils));
+                                                            themeColorUtils,
+                                                            themeAvatarUtils));
         binding.sharesList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         setupView();

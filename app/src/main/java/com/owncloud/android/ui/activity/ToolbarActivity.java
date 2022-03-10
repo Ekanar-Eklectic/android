@@ -43,6 +43,7 @@ import com.nextcloud.client.di.Injectable;
 import com.owncloud.android.R;
 import com.owncloud.android.datamodel.FileDataStorageManager;
 import com.owncloud.android.datamodel.OCFile;
+import com.owncloud.android.utils.theme.ThemeButtonUtils;
 import com.owncloud.android.utils.theme.ThemeColorUtils;
 import com.owncloud.android.utils.theme.ThemeDrawableUtils;
 import com.owncloud.android.utils.theme.ThemeLayoutUtils;
@@ -82,6 +83,7 @@ public abstract class ToolbarActivity extends BaseActivity implements Injectable
     @Inject public ThemeToolbarUtils themeToolbarUtils;
     @Inject public ThemeUtils themeUtils;
     @Inject public ThemeDrawableUtils themeDrawableUtils;
+    @Inject public ThemeButtonUtils themeButtonUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

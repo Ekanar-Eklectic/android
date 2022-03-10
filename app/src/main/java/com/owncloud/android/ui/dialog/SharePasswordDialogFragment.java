@@ -60,6 +60,8 @@ public class SharePasswordDialogFragment extends DialogFragment implements Dialo
     public static final String PASSWORD_FRAGMENT = "PASSWORD_FRAGMENT";
 
     @Inject ThemeColorUtils themeColorUtils;
+    @Inject ThemeButtonUtils themeButtonUtils;
+    @Inject ThemeTextInputUtils themeTextInputUtils;
 
     private PasswordDialogBinding binding;
     private OCFile file;
@@ -73,10 +75,10 @@ public class SharePasswordDialogFragment extends DialogFragment implements Dialo
 
         AlertDialog alertDialog = (AlertDialog) getDialog();
         if (alertDialog != null) {
-            ThemeButtonUtils.themeBorderlessButton(themeColorUtils,
+            themeButtonUtils.themeBorderlessButton(themeColorUtils,
                                                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE),
                                                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
-            ThemeButtonUtils.themeBorderlessButton(getResources().getColor(R.color.highlight_textColor_Warning),
+            themeButtonUtils.themeBorderlessButton(getResources().getColor(R.color.highlight_textColor_Warning),
                                                    alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL));
 
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
@@ -161,7 +163,7 @@ public class SharePasswordDialogFragment extends DialogFragment implements Dialo
 
         // Setup layout
         binding.sharePassword.setText("");
-        ThemeTextInputUtils.colorTextInput(binding.sharePasswordContainer,
+        themeTextInputUtils.colorTextInput(binding.sharePasswordContainer,
                                            binding.sharePassword,
                                            themeColorUtils.primaryColor(getActivity()));
         binding.sharePassword.requestFocus();

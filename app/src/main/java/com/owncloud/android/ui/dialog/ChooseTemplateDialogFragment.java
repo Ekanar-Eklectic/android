@@ -93,6 +93,8 @@ public class ChooseTemplateDialogFragment extends DialogFragment implements View
     @Inject CurrentAccountProvider currentAccount;
     @Inject ThemeColorUtils themeColorUtils;
     @Inject ThemeDrawableUtils themeDrawableUtils;
+    @Inject ThemeButtonUtils themeButtonUtils;
+    @Inject ThemeTextInputUtils themeTextInputUtils;
     private TemplateAdapter adapter;
     private OCFile parentFolder;
     private String title;
@@ -124,7 +126,7 @@ public class ChooseTemplateDialogFragment extends DialogFragment implements View
         AlertDialog alertDialog = (AlertDialog) getDialog();
 
         positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        ThemeButtonUtils.themeBorderlessButton(themeColorUtils,
+        themeButtonUtils.themeBorderlessButton(themeColorUtils,
                                                positiveButton,
                                                alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL));
         positiveButton.setOnClickListener(this);
@@ -162,7 +164,7 @@ public class ChooseTemplateDialogFragment extends DialogFragment implements View
         View view = binding.getRoot();
 
         binding.filename.requestFocus();
-        ThemeTextInputUtils.colorTextInput(binding.filenameContainer,
+        themeTextInputUtils.colorTextInput(binding.filenameContainer,
                                            binding.filename,
                                            themeColorUtils.primaryColor(getContext()));
 
