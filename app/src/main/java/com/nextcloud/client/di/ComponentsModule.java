@@ -91,6 +91,7 @@ import com.owncloud.android.ui.dialog.SendShareDialog;
 import com.owncloud.android.ui.dialog.SetupEncryptionDialogFragment;
 import com.owncloud.android.ui.dialog.SharePasswordDialogFragment;
 import com.owncloud.android.ui.dialog.SortingOrderDialogFragment;
+import com.owncloud.android.ui.dialog.StoragePermissionDialogFragment;
 import com.owncloud.android.ui.dialog.SyncedFolderPreferencesDialogFragment;
 import com.owncloud.android.ui.fragment.ExtendedListFragment;
 import com.owncloud.android.ui.fragment.FeatureFragment;
@@ -410,4 +411,7 @@ abstract class ComponentsModule {
 
     @ContributesAndroidInjector
     abstract ToolbarActivity toolbarActivity();
+
+    @ContributesAndroidInjector
+    abstract StoragePermissionDialogFragment storagePermissionDialogFragment();
 }

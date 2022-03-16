@@ -41,8 +41,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.nextcloud.client.preferences.AppPreferences
 import com.nextcloud.client.preferences.AppPreferencesImpl
 import com.owncloud.android.R
-import com.owncloud.android.utils.theme.ThemeButtonUtils
-import com.owncloud.android.utils.theme.ThemeColorUtils
 import com.owncloud.android.ui.dialog.StoragePermissionDialogFragment
 import com.owncloud.android.utils.theme.ThemeSnackbarUtils
 
@@ -115,26 +113,43 @@ object PermissionUtil {
      */
     @JvmStatic
     @JvmOverloads
-    fun requestExternalStoragePermission(activity: AppCompatActivity, permissionRequired: Boolean = false) {
+    fun requestExternalStoragePermission(
+        activity: AppCompatActivity,
+        themeSnackbarUtils: ThemeSnackbarUtils,
+        permissionRequired: Boolean = false
+    ) {
         if (!checkExternalStoragePermission(activity)) {
             when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> {
                     if (canRequestAllFilesPermission(activity)) {
                         // can request All Files, show choice
-                        showPermissionChoiceDialog(activity, permissionRequired)
+                        showPermissionChoiceDialog(activity, permissionRequired, themeSnackbarUtils)
                     } else {
                         // can not request all files, request READ_EXTERNAL_STORAGE
-                        requestStoragePermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        requestStoragePermission(
+                            activity,
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            themeSnackbarUtils
+                        )
                     }
                 }
-                else -> requestStoragePermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                else -> requestStoragePermission(
+                    activity,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    themeSnackbarUtils
+                )
             }
         }
     }
+
     /**
      * Request a storage permission
      */
-    private fun requestStoragePermission(activity: Activity, permission: String) {
+    private fun requestStoragePermission(
+        activity: Activity,
+        permission: String,
+        themeSnackbarUtils: ThemeSnackbarUtils
+    ) {
         fun doRequest() {
             ActivityCompat.requestPermissions(
                 activity, arrayOf(permission),
@@ -155,7 +170,7 @@ object PermissionUtil {
                     doRequest()
                 }
                 .also {
-                    ThemeSnackbarUtils.colorSnackbar(activity, it)
+                    themeSnackbarUtils.colorSnackbar(activity, it)
                 }
                 .show()
         } else {
@@ -187,7 +202,11 @@ object PermissionUtil {
      * sdk >= 30: Choice between All Files access or read_external_storage
      */
     @RequiresApi(Build.VERSION_CODES.R)
-    private fun showPermissionChoiceDialog(activity: AppCompatActivity, permissionRequired: Boolean) {
+    private fun showPermissionChoiceDialog(
+        activity: AppCompatActivity,
+        permissionRequired: Boolean,
+        themeSnackbarUtils: ThemeSnackbarUtils
+    ) {
         val preferences: AppPreferences = AppPreferencesImpl.fromContext(activity)
 
         if (!preferences.isStoragePermissionRequested || permissionRequired) {
@@ -206,7 +225,11 @@ object PermissionUtil {
 
                     override fun onClickMediaReadOnly() {
                         preferences.isStoragePermissionRequested = true
-                        requestStoragePermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        requestStoragePermission(
+                            activity,
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            themeSnackbarUtils
+                        )
                     }
                 }
                 val dialogFragment = StoragePermissionDialogFragment(listener, permissionRequired)
